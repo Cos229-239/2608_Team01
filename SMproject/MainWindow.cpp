@@ -4,7 +4,7 @@ MainWindow::MainWindow() : wxFrame(nullptr, wxID_ANY, "SMproject", wxPoint(0, 0)
 {
 	//Norm Demis: 1725  1075
 
-	buttonHandler = new Buttons(this);
+	buttonHandler = new Screen(this);
 	buttonHandler->SetWindow(this);
 
 	wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);

@@ -1,4 +1,5 @@
 #pragma once
+#include "wx/wx.h"
 #include <string>
 #include <vector>
 
@@ -17,7 +18,7 @@ struct Button {
 		Label = Labl;
 	}
 	int GetButton(int x, int y) const {
-		if (x > Left && x < Right && y > Top && y < Bottom) return ID;
+		if (x > Left && x < (Left+Right) && y > Top && y < (Top + Bottom)) return ID;
 		return 0;
 	}
 };
@@ -27,15 +28,12 @@ class ButtonFactory {
 public:
 	static Button MakeButton(int Height, int Width, int SizeH, int SizeW, int ID, std::string Labl) {
 		Button button;
-		int id = ID;
-		int Left = Width, Right = SizeW;
-		int Top = Height, Bottom = SizeH;
 
-		button.ID = id;
-		button.Left = Left;
-		button.Right = Left + Right;
-		button.Bottom = Top + Bottom;
-		button.Top = Top;
+		button.ID = ID;
+		button.Left = Width;
+		button.Right = SizeW;
+		button.Bottom = SizeH;
+		button.Top = Height;
 		button.Label = Labl;
 
 		return button;
@@ -47,10 +45,19 @@ public:
 		amountdown *= SizeH;
 		for (int i = Height; i < amountdown + Height; i += SizeH) {
 			for (int j = Width; j < amountright + Width; j += SizeW) {
-				if (index == ID.size()) break;
+				if (index == ID.size() or index == Labl.size()) break;
 				buttons.push_back(ButtonFactory::MakeButton(i, j, SizeH, SizeW, ID[index], Labl[index]));
 				index++;
 			}
+		}
+		return buttons;
+	}
+	static std::vector<Button> MakeMultiButtons(std::vector<int> ID, std::vector<std::string> Labl) {
+		std::vector<Button> buttons; int index = 0;
+		while (true) {
+			if (index == ID.size() or index == Labl.size()) break;
+			buttons.push_back(ButtonFactory::MakeButton(0, 0, 0, 0, ID[index], Labl[index]));
+			index++;
 		}
 		return buttons;
 	}

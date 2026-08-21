@@ -1,12 +1,12 @@
 #pragma once
 #include "wx/wx.h"
 
-class Buttons;
+class Screen;
 class MainWindow : public wxFrame
 {
 
 public: 
 	MainWindow();
 
-	Buttons* buttonHandler = nullptr;
+	Screen* buttonHandler = nullptr;
 };
