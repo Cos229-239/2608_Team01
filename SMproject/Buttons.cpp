@@ -118,20 +118,12 @@ void Screen::ShowComponent(int x, int y, UIComp& panel, wxColour Main, wxColour 
 		ShowButton(panel.buttons[i], Buttons);
 	}
 }
-void Screen::ShowButton(Button button, wxColor color)
+void Screen::ShowButton(Button& button, wxColor color)
 {
-	//50 330
 	context->SetBrush(color);
 	context->DrawRectangle(button.Left, button.Top, button.Right, button.Bottom);
 	if (button.Label == "") return;
-	int modX = button.Right/2 + button.Left;
-	int modY = button.Bottom/2 + button.Top;
-	MakeText(modX, modY, button.Label, color);
-}
-void Screen::MakeText(int x, int y, std::string TEXT, wxColor color)
-{
-	wxStaticText label = wxStaticText(this, wxID_ANY, TEXT, wxPoint(x, y), wxSize(70, 15));
-	label.SetBackgroundColour(color);
+	button.MakeText(this, color);
 }
 
 void Screen::SetWindow(MainWindow* window)

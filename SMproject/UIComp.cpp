@@ -56,7 +56,13 @@ void UIComp::EraseButton(int Index)
     buttons.erase(buttons.begin() + Index);
 }
 
-void UIComp::Activate() { IsActive = !IsActive; }
+void UIComp::Activate() { 
+    IsActive = !IsActive;
+    for (int i = 0; i < buttons.size(); ++i) {
+        buttons[i].Active = IsActive;
+        buttons[i].ActiveCheck();
+    }
+}
 void UIComp::MoveComponent(int x, int y)
 {
     if (!Moving) return;

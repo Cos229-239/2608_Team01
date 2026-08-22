@@ -9,6 +9,8 @@ struct Button {
 	int Left, Right;
 	int Top, Bottom;
 	std::string Label;
+	wxStaticText* Labl = nullptr;
+	bool Active = true;
 	Button(int id = 0, int left = 0, int right = 0, int top = 0, int bottom = 0, std::string Labl = "") {
 		ID = id;
 		Left = left;
@@ -16,6 +18,17 @@ struct Button {
 		Bottom = bottom;
 		Top = top;
 		Label = Labl;
+	}
+	void MakeText(wxWindow* This, wxColour color, int Position = 1) {
+		ActiveCheck();
+		if (Labl != nullptr) return;
+		Labl = new wxStaticText(This, wxID_ANY, Label, wxPoint(Right / 2 + Left, Bottom / 2 + Top), wxSize(6*strlen(Label.c_str()), 15));
+		Labl->SetBackgroundColour(color);
+	}
+	void ActiveCheck() {
+		if (Active) return;
+		if (Labl != nullptr) { delete Labl; Labl = nullptr; }
+		return;
 	}
 	int GetButton(int x, int y) const {
 		if (x > Left && x < (Left+Right) && y > Top && y < (Top + Bottom)) return ID;
@@ -27,16 +40,7 @@ class ButtonFactory {
 	std::vector<Button> AllButtons = {};
 public:
 	static Button MakeButton(int Height, int Width, int SizeH, int SizeW, int ID, std::string Labl) {
-		Button button;
-
-		button.ID = ID;
-		button.Left = Width;
-		button.Right = SizeW;
-		button.Bottom = SizeH;
-		button.Top = Height;
-		button.Label = Labl;
-
-		return button;
+		return Button(ID, Width, SizeW, Height, SizeH, Labl);
 	}
 	static std::vector<Button> MakeMultiButtons(int Height, int Width, int SizeH, int SizeW, int amountright, int amountdown, std::vector<int> ID, std::vector<std::string> Labl) {
 		std::vector<Button> buttons; int index = 0;

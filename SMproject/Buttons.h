@@ -8,8 +8,8 @@ class Screen;
 struct SidePanelX {
 	SidePanelX(Screen* Screen); Screen* screen = nullptr;
 	vector<Button> SidePanelButtons = ButtonFactory::MakeMultiButtons({ 1, 2, 3, 4, 5 }, { "Inventory", "Portfolio", "Test3", "Test4", "Test5" });
-	UIComp SidePanel = UIComp(300, 75, SidePanelButtons);
-	int X = 20, Y = 50;
+	UIComp SidePanel = UIComp(300, 100, SidePanelButtons);
+	int X = 5, Y = 100;
 	void SidePanelFunctions(int numb);
 };
 struct InventoryX {
@@ -43,8 +43,7 @@ public:
 private:
 	void OnMouseClick(wxMouseEvent& event);
 	void OnMouseRClick(wxMouseEvent& event);
-	void ShowButton(Button buttonVecc, wxColor color);
-	void MakeText(int x, int y, std::string TEXT, wxColor color);
+	void ShowButton(Button& button, wxColor color);
 	MainWindow* mainWindow = nullptr;
 
 	wxDECLARE_EVENT_TABLE();
