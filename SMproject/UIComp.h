@@ -10,19 +10,21 @@ class UIComp {
 	- Set button Height (All button heights will be the same on that panel)
 	*/
 public:
+	std::string UIName;
 	Button MainBackground;
-	bool IsActive = false; bool Moving = true;
-	int DefaultX, DefaultY;
+	bool IsActive = false;
+	int DefaultX, DefaultY; //Button
+	int X = 0, Y = 0;		//Location on screen
 	vector<Button> buttons;
 public:
-	UIComp(int width = 20, int buttonHeight = 20, vector<Button> StarterButtons = {});
+	UIComp(std::string Name, int width = 20, int buttonHeight = 20, vector<Button> StarterButtons = {});
 	void SetParams();
 	bool Check(int x, int y);
 	void AddButton(Button button), AddButton(vector<Button> button);
 	void EraseButton(int Index);
 	void Activate();
-
-	void MoveComponent(int x, int y);
+	void Location(int x, int y);
+	void MoveComponent(int x = 0, int y = 0);
 	int GetButton(int x, int y);
 
 };

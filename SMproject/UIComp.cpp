@@ -11,13 +11,13 @@ void UIComp::SetParams()
         buttons[i].Left -= X;
         buttons[i].Top -= Y;
     }
-    Moving = false;
     //Moves it back to 0,0 before moving it again
     //Right and Bottom don't need to be changed
 }
 
-UIComp::UIComp(int width, int buttonHeight, vector<Button> StarterButtons)
+UIComp::UIComp(std::string Name, int width, int buttonHeight, vector<Button> StarterButtons)
 {
+    UIName = Name;
     if (width < 20) width = 20;
     MainBackground.Left = 0; MainBackground.Right = width;
     MainBackground.Top = 0; MainBackground.Bottom = 5;
@@ -57,21 +57,27 @@ void UIComp::EraseButton(int Index)
 }
 
 void UIComp::Activate() { 
+    MoveComponent();
     IsActive = !IsActive;
     for (int i = 0; i < buttons.size(); ++i) {
         buttons[i].Active = IsActive;
         buttons[i].ActiveCheck();
     }
+    if (!IsActive) { SetParams(); }
+}
+void UIComp::Location(int x, int y)
+{
+    X = x;
+    Y = y;
 }
 void UIComp::MoveComponent(int x, int y)
 {
-    if (!Moving) return;
     SetParams();
-    MainBackground.Left += x;
-    MainBackground.Top += y;
+    MainBackground.Left += X + x;
+    MainBackground.Top += Y + y;
     for (int i = 0; i < buttons.size(); ++i) {
-        buttons[i].Left += x;
-        buttons[i].Top += y;
+        buttons[i].Left += X + x;
+        buttons[i].Top += Y + y;
     }
     //Moves the buttons based on the location of the UIComp
 }

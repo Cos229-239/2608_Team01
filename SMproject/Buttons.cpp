@@ -18,30 +18,52 @@ Screen::Screen(wxFrame* parent)
 	Inve = new InventoryX(this);
 	Port = new PortfolioX(this);
 	//nullptr in .h then new them here
-	SideP->SidePanel.Activate();
+	SideP->SidePanel->Activate();
 }
 //Side Panel
-SidePanelX::SidePanelX(Screen* Screen) { screen = Screen;  Screen->SideP = this; }
+SidePanelX::SidePanelX(Screen* Screen) { 
+	screen = Screen;  screen->SideP = this;
+	SidePanel = new UIComp("SidePanel", 300, 100, {});
+	SidePanel->Location(5, 100);
+}
 void SidePanelX::SidePanelFunctions(int numb)
 {
 	if (numb == 0) return;
-	switch (numb) {
-	case 1: screen->Inve->Inventory.Activate(); break;
-	case 2: screen->Port->Portfolio.Activate(); break;
-	case 3: break;
-	case 4: break;
-	case 5: break;
-	default: break;
+	if (numb > Panels.size()) return;
+	Panels[numb-1]->Activate();
+	CheckOverlap(Panels[numb - 1]);
+	return;
+}
+void SidePanelX::CheckOverlap(UIComp* Panel)
+{
+	for (int i = 0; i < Panels.size(); ++i) {
+		int mod = 0;
+		while (true) {
+			if (screen->OverlappingX(Panel, Panels[i])) { mod += 5;
+				Panel->MoveComponent(mod, 0); }
+			else break; }
 	}
 }
 //Inventory
-InventoryX::InventoryX(Screen* Screen) { screen = Screen;  Screen->Inve = this; }
+InventoryX::InventoryX(Screen* Screen) { 
+	screen = Screen;  screen->Inve = this; 
+	Inventory = new UIComp("Inventory", 350, 100, InventoryButtons);
+	Inventory->Location(350, 100);
+	screen->SideP->Panels.push_back(Inventory);
+	screen->SideP->SidePanel->AddButton(Button(screen->SideP->SidePanel->buttons.size()+1, 0, 0, 0, 0, Inventory->UIName));
+}
 void InventoryX::InventoryFunctions(int numb)
 {
 
 }
 //Portfolio
-PortfolioX::PortfolioX(Screen* Screen) { screen = Screen;  Screen->Port = this; }
+PortfolioX::PortfolioX(Screen* Screen) { 
+	screen = Screen;  screen->Port = this;
+	Portfolio = new UIComp("Portfolio", 350, 100, { Button(1,0,0,0,0, "DaPic") });
+	Portfolio->Location(350, 100);
+	screen->SideP->Panels.push_back(Portfolio);
+	screen->SideP->SidePanel->AddButton(Button(screen->SideP->SidePanel->buttons.size()+1, 0, 0, 0, 0, Portfolio->UIName));
+}
 
 
 void Screen::SetPanelSize(wxSize size)
@@ -55,8 +77,8 @@ void Screen::OnMouseClick(wxMouseEvent& event)
 	int x = event.GetX();
 	int y = event.GetY();
 
-	if (SideP->SidePanel.Check(x,y)) {
-		SideP->SidePanelFunctions(SideP->SidePanel.GetButton(x, y));
+	if (SideP->SidePanel->Check(x,y)) {
+		SideP->SidePanelFunctions(SideP->SidePanel->GetButton(x, y));
 		Refresh();
 		return;
 	}
@@ -74,7 +96,7 @@ void Screen::OnMouseRClick(wxMouseEvent& event)
 	int x = event.GetX();
 	int y = event.GetY();
 
-	if (Inve->Inventory.Check(x,y)){
+	if (Inve->Inventory->Check(x,y)){
 	Refresh();
 	return;
 	}
@@ -96,10 +118,9 @@ void Screen::OnPaint(wxPaintEvent& event)
 	context = wxGraphicsContext::Create(dc);
 	if (!context) return;
 	//Show            where it shows    which panel      background color        button color
-	ShowComponent(SideP->X, SideP->Y, SideP->SidePanel, wxColor(77, 77, 77), wxColour(22, 22, 99));
-	ShowComponent(Inve->X, Inve->Y, Inve->Inventory, wxColour(99,99,99), wxColour(00,88,99));
-	ShowComponent(Port->X, Port->Y, Port->Portfolio, wxColour(99,99,99), wxColour(33,33,33));
-
+	ShowComponent(SideP->SidePanel, wxColor(77, 77, 77), wxColour(22, 22, 99));
+	ShowComponent(Inve->Inventory, wxColour(99,99,99), wxColour(00,88,99));
+	ShowComponent(Port->Portfolio, wxColour(99,99,99), wxColour(33,33,33));
 	wxSize dasize = GetSize();
 	double Winwidth = dasize.GetWidth();
 	double Winheight = dasize.GetHeight();
@@ -107,15 +128,29 @@ void Screen::OnPaint(wxPaintEvent& event)
 	context->SetBrush(*wxCYAN_BRUSH);
 }
 
-void Screen::ShowComponent(int x, int y, UIComp& panel, wxColour Main, wxColour Buttons)
+bool Screen::OverlappingX(UIComp* panel, UIComp* panel2)
 {
-	if (!panel.IsActive) return;
+	if (panel == panel2 or !panel2->IsActive) return false;
+	if (panel->X + panel->MainBackground.Right < panel2->MainBackground.Left) { return false; }
+	if (panel->MainBackground.Left <= panel2->X + panel2->MainBackground.Right) { return true; }
+	return false;
+}
+bool Screen::OverlappingY(UIComp* panel, UIComp* panel2)
+{
+	if (panel == panel2 or !panel2->IsActive) return false;
+	if (panel->Y + panel->MainBackground.Bottom <= panel2->MainBackground.Top) { return false; }
+	if (panel->MainBackground.Top <= panel2->Y + panel2->MainBackground.Bottom) { return true; }
+	return false;
+}
 
-	panel.MoveComponent(x, y);
+void Screen::ShowComponent(UIComp* panel, wxColour Main, wxColour Buttons)
+{
+	if (!panel->IsActive) return;
+
 	context->SetPen(*wxBLACK_PEN);
-	ShowButton(panel.MainBackground, Main);
-	for (int i = 0; i < panel.buttons.size(); ++i) {
-		ShowButton(panel.buttons[i], Buttons);
+	ShowButton(panel->MainBackground, Main);
+	for (int i = 0; i < panel->buttons.size(); ++i) {
+		ShowButton(panel->buttons[i], Buttons);
 	}
 }
 void Screen::ShowButton(Button& button, wxColor color)
