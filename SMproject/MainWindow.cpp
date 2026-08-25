@@ -1,6 +1,6 @@
 #include "MainWindow.h"
 #include "Buttons.h"
-MainWindow::MainWindow() : wxFrame(nullptr, wxID_ANY, "SMproject", wxPoint(0, 0), wxSize(1725, 1075)) 
+MainWindow::MainWindow() : wxFrame(nullptr, wxID_ANY, "SMproject", wxPoint(0, 0), wxSize(ScreenWidth, ScreenHeight))
 {
 	//Norm Demis: 1725  1075
 
