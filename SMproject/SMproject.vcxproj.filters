@@ -30,6 +30,18 @@
     <ClCompile Include="UIComp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SidePanelY.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InventoryY.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PortfolioY.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MarketTrendsY.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="buttonFactory.h">

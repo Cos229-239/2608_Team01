@@ -15,14 +15,14 @@ void UIComp::SetParams()
     //Right and Bottom don't need to be changed
 }
 
-UIComp::UIComp(std::string Name, int width, int buttonHeight, vector<Button> StarterButtons)
+UIComp::UIComp(std::string Name, int width, int buttonHeight, vector<Button> StarterButtons, wxColour Main, wxColour Side)
 {
     UIName = Name;
     if (width < 20) width = 20;
     MainBackground.Left = 0; MainBackground.Right = width;
     MainBackground.Top = 0; MainBackground.Bottom = 5;
     DefaultX = width - 10; DefaultY = buttonHeight;
-
+    Colors(Main, Side);
     if (StarterButtons.size() > 0) AddButton(StarterButtons);
 }
 
@@ -69,6 +69,11 @@ void UIComp::Location(int x, int y)
 {
     X = x;
     Y = y;
+}
+void UIComp::Colors(wxColour Main, wxColour Side)
+{
+    MBColor = Main;
+    SBColor = Side;
 }
 void UIComp::MoveComponent(int x, int y)
 {

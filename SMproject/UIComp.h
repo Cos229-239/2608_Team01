@@ -11,19 +11,20 @@ class UIComp {
 	*/
 public:
 	std::string UIName;
-	Button MainBackground;
+	Button MainBackground; wxColour MBColor;
 	bool IsActive = false;
 	int DefaultX, DefaultY; //Button
 	int X = 0, Y = 0;		//Location on screen
-	vector<Button> buttons;
+	vector<Button> buttons; wxColour SBColor;
 public:
-	UIComp(std::string Name, int width = 20, int buttonHeight = 20, vector<Button> StarterButtons = {});
+	UIComp(std::string Name, int width = 20, int buttonHeight = 20, vector<Button> StarterButtons = {}, wxColour Main = wxColour(77, 77, 77), wxColour Side = wxColour(22, 22, 99));
 	void SetParams();
 	bool Check(int x, int y);
 	void AddButton(Button button), AddButton(vector<Button> button);
 	void EraseButton(int Index);
 	void Activate();
 	void Location(int x, int y);
+	void Colors(wxColour Main, wxColour Side);
 	void MoveComponent(int x = 0, int y = 0);
 	int GetButton(int x, int y);
 
