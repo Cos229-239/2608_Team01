@@ -19,11 +19,51 @@ struct Button {
 		Top = top;
 		Label = Labl;
 	}
-	void MakeText(wxWindow* This, wxColour color, int Position = 1) {
+	void MakeText(wxWindow* This, wxColour color, int Position = 1, int Modifier = 5) {
 		ActiveCheck();
 		if (Labl != nullptr) return;
-		Labl = new wxStaticText(This, wxID_ANY, Label, wxPoint(Right / 3 + Left, Bottom / 2 + Top), wxSize(7*strlen(Label.c_str()), 15));
-		Labl->SetBackgroundColour(color);
+		switch (Position) {
+		case 1: {
+			Labl = new wxStaticText(This, wxID_ANY, Label, wxPoint(Modifier + Left, Bottom / 2 + Top), wxSize(7 * strlen(Label.c_str()), 15));
+			Labl->SetBackgroundColour(color);
+		}break; //Left with mod
+		case 4: {
+			Labl = new wxStaticText(This, wxID_ANY, Label, wxPoint(Modifier + Left, 5 + Top), wxSize(7 * strlen(Label.c_str()), 15));
+			Labl->SetBackgroundColour(color);
+		}break; //Left(Top) with mod
+		case 7: {
+			Labl = new wxStaticText(This, wxID_ANY, Label, wxPoint(Modifier + Left, Bottom - 15 + Top), wxSize(7 * strlen(Label.c_str()), 15));
+			Labl->SetBackgroundColour(color);
+		}break; //Left(Bottom) with mod
+		case 2: {
+			Labl = new wxStaticText(This, wxID_ANY, Label, wxPoint(Right / 3 + Left, Bottom / 2 + Top), wxSize(7 * strlen(Label.c_str()), 15));
+			Labl->SetBackgroundColour(color);
+		}break; //Middle
+		case 5: {
+			Labl = new wxStaticText(This, wxID_ANY, Label, wxPoint(Right / 3 + Left, 5 + Top), wxSize(7 * strlen(Label.c_str()), 15));
+			Labl->SetBackgroundColour(color);
+		}break; //Middle(Top)
+		case 8: {
+			Labl = new wxStaticText(This, wxID_ANY, Label, wxPoint(Right / 3 + Left, Bottom - 15 + Top), wxSize(7 * strlen(Label.c_str()), 15));
+			Labl->SetBackgroundColour(color);
+		}break; //Middle(Bottom)
+		case 3: {
+			Labl = new wxStaticText(This, wxID_ANY, Label, wxPoint(Right / 2 + Left, Bottom / 2 + Top), wxSize(7 * strlen(Label.c_str()), 15));
+			Labl->SetBackgroundColour(color);
+		}break; //Right
+		case 6: {
+			Labl = new wxStaticText(This, wxID_ANY, Label, wxPoint(Right / 2 + Left, 5 + Top), wxSize(7 * strlen(Label.c_str()), 15));
+			Labl->SetBackgroundColour(color);
+		}break; //Right(Top)
+		case 9: {
+			Labl = new wxStaticText(This, wxID_ANY, Label, wxPoint(Right / 2 + Left, Bottom - 15 + Top), wxSize(7 * strlen(Label.c_str()), 15));
+			Labl->SetBackgroundColour(color);
+		}break; //Right(Bottom)
+		default: {
+			Labl = new wxStaticText(This, wxID_ANY, Label, wxPoint(5 + Left, Bottom / 2 + Top), wxSize(7 * strlen(Label.c_str()), 15));
+			Labl->SetBackgroundColour(color);
+		}break;
+		}
 	}
 	void ActiveCheck() {
 		if (Active) return;
@@ -41,6 +81,9 @@ class ButtonFactory {
 public:
 	static Button MakeButton(int Height, int Width, int SizeH, int SizeW, int ID, std::string Labl) {
 		return Button(ID, Width, SizeW, Height, SizeH, Labl);
+	}
+	static Button MakeButton(int ID, std::string Labl) {
+		return Button(ID, 0, 0, 0, 0, Labl);
 	}
 	static std::vector<Button> MakeMultiButtons(int Height, int Width, int SizeH, int SizeW, int amountright, int amountdown, std::vector<int> ID, std::vector<std::string> Labl) {
 		std::vector<Button> buttons; int index = 0;
