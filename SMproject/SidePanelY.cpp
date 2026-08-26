@@ -18,6 +18,13 @@ void SidePanelX::SidePanelFunctions(int numb)
 	CheckOverlap(Panels[numb - 1], modX, modY);
 	return;
 }
+void SidePanelX::ReActivate(UIComp* Panel)
+{
+	Panel->Activate();
+	Panel->Activate();
+	int modX = 0, modY = 0;
+	CheckOverlap(Panel, modX, modY);
+}
 void SidePanelX::CheckOverlap(UIComp* Panel, int& modX, int& modY)
 {
 	for (int i = 0; i < Panels.size(); ++i) {
@@ -31,7 +38,7 @@ void SidePanelX::CheckOverlap(UIComp* Panel, int& modX, int& modY)
 			modY = 0;
 			Panel->MoveComponent(modX, modY);
 			while (true) {
-				if (screen->Overlap(Panel, Panels[i])) {
+				if (screen->OverlappingX(Panel, Panels[i])) {
 					modX += 5; Panel->MoveComponent(modX, modY);
 				}
 				else break;

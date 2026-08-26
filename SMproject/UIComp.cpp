@@ -53,6 +53,7 @@ void UIComp::EraseButton(int Index)
     for (int i = Index+1; i < buttons.size(); ++i) {
         buttons[i].Top -= (DefaultY + 5);
     }
+    delete buttons[Index].Labl;
     buttons.erase(buttons.begin() + Index);
 }
 
@@ -86,7 +87,7 @@ void UIComp::MoveComponent(int x, int y)
     }
     //Moves the buttons based on the location of the UIComp
 }
-int UIComp::GetButton(int x, int y)
+int UIComp::GetButtonID(int x, int y)
 {
     for (int i = 0; i < buttons.size(); ++i) {
         int ID = buttons[i].GetButton(x, y);
@@ -95,4 +96,21 @@ int UIComp::GetButton(int x, int y)
     return 0;
     //Checks each button for an ID
     //ID usage is in buttons.cpp
+}
+Button UIComp::SeeButton(int x, int y)
+{
+    for (int i = 0; i < buttons.size(); ++i) {
+        int ID = buttons[i].GetButton(x, y);
+        if (ID != 0) return buttons[i];
+    }
+    return Button();
+}
+Button UIComp::SeeButton(int x, int y, int& Index) 
+{
+    for (int i = 0; i < buttons.size(); ++i) {
+        Index = i;
+        int ID = buttons[i].GetButton(x, y);
+        if (ID != 0) return buttons[i];
+    }
+    return Button();
 }

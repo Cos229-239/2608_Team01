@@ -33,7 +33,11 @@ void Screen::OnMouseClick(wxMouseEvent& event)
 	int y = event.GetY();
 
 	if (SideP->SidePanel->Check(x, y)) {
-		SideP->SidePanelFunctions(SideP->SidePanel->GetButton(x, y));
+		SideP->SidePanelFunctions(SideP->SidePanel->GetButtonID(x, y));
+		Refresh();
+		return;
+	}
+	if (Inve->Inventory->Check(x, y)) {
 		Refresh();
 		return;
 	}
@@ -105,13 +109,13 @@ bool Screen::Overlap(UIComp* panel, UIComp* panel2)
 bool Screen::OffScreenX(UIComp* panel)
 {
 	int tot = panel->MainBackground.Right + panel->MainBackground.Left;
-	if (tot > ScreenWidth or panel->MainBackground.Top < 0) return true;
+	if (tot > ScreenWidth-25 or panel->MainBackground.Top < 0) return true;
 	return false;
 }
 bool Screen::OffScreenY(UIComp* panel)
 {
 	int tot = panel->MainBackground.Bottom + panel->MainBackground.Top;
-	if (tot > ScreenHeight or panel->MainBackground.Left < 0) return true;
+	if (tot > ScreenHeight-50 or panel->MainBackground.Left < 0) return true;
 	return false;
 }
 

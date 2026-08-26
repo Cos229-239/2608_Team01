@@ -22,7 +22,7 @@ struct Button {
 	void MakeText(wxWindow* This, wxColour color, int Position = 1) {
 		ActiveCheck();
 		if (Labl != nullptr) return;
-		Labl = new wxStaticText(This, wxID_ANY, Label, wxPoint(Right / 2 + Left, Bottom / 2 + Top), wxSize(6*strlen(Label.c_str()), 15));
+		Labl = new wxStaticText(This, wxID_ANY, Label, wxPoint(Right / 3 + Left, Bottom / 2 + Top), wxSize(7*strlen(Label.c_str()), 15));
 		Labl->SetBackgroundColour(color);
 	}
 	void ActiveCheck() {

@@ -19,14 +19,18 @@ struct SidePanelX {
 	vector<UIComp*> Panels = {};
 	UIComp* SidePanel = nullptr;
 	void SidePanelFunctions(int numb);
+	void ReActivate(UIComp* Panel);
 	void CheckOverlap(UIComp* Panel, int& modX, int& modY);
 	bool CheckOverlap(UIComp* Panel);
 };
 struct InventoryX {
 	InventoryX(Screen* Screen); Screen* screen = nullptr;
-	vector<Button> InventoryButtons = ButtonFactory::MakeMultiButtons({1,2,3,4,5}, {"Item1","Item2","Item3","Item4","Item5",});
+	vector<Button> InventoryButtons = ButtonFactory::MakeMultiButtons({1}, {"Item1"});
 	UIComp* Inventory = nullptr;
 	void InventoryFunctions(int numb);
+	void AddNewButton(); 
+	void DstryButton(int x, int y);
+	void ChangeButtonLabl(int Index);
 };
 struct PortfolioX {
 	PortfolioX(Screen* Screen); Screen* screen = nullptr;

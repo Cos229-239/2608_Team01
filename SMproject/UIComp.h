@@ -22,10 +22,12 @@ public:
 	bool Check(int x, int y);
 	void AddButton(Button button), AddButton(vector<Button> button);
 	void EraseButton(int Index);
+	Button SeeButton(int x, int y);
+	Button SeeButton(int x, int y, int& Index);
 	void Activate();
 	void Location(int x, int y);
 	void Colors(wxColour Main, wxColour Side);
 	void MoveComponent(int x = 0, int y = 0);
-	int GetButton(int x, int y);
+	int GetButtonID(int x, int y);
 
 };
