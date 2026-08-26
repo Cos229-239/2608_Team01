@@ -133,7 +133,6 @@ void Screen::ShowButton(Button& button, wxColor color)
 {
 	context->SetBrush(color);
 	context->DrawRectangle(button.Left, button.Top, button.Right, button.Bottom);
-	if (button.Label == "") return;
 	button.MakeText(this, color);
 }
 

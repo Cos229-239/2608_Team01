@@ -21,7 +21,7 @@ void InventoryX::AddNewButton()
 	wxString textInput = wxGetTextFromUser("Enter your Item Name:", "User Input Required");
 	if (!textInput.IsEmpty()) {
 		std::string Labl = textInput.ToStdString();
-		Inventory->AddButton(Button(99, 0, 0, 0, 0, Labl));
+		Inventory->AddButton(Button(99, 0, 0, 0, 0, Labl, "Price"));
 		screen->SideP->ReActivate(Inventory);
 		//For Inventory, I don't think function ID matters since we'll need the data to do anything
 		//We just need it to have an ID to get the button

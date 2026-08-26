@@ -25,7 +25,7 @@ struct SidePanelX {
 };
 struct InventoryX {
 	InventoryX(Screen* Screen); Screen* screen = nullptr;
-	vector<Button> InventoryButtons = { ButtonFactory::MakeButton(1, "Item1") };
+	vector<Button> InventoryButtons = { ButtonFactory::MakeButton(1, "Item1", "Price1")};
 	UIComp* Inventory = nullptr;
 	void InventoryFunctions(int numb);
 	void AddNewButton(); 
