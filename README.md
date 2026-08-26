@@ -8,3 +8,4 @@ Prototype pages:
 - `roster-v2-sample.json` - sample editable roster shape for future class setup work
 
 - Sincere Noel
+- Alexander Moore
