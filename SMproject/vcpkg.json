@@ -1,0 +1,13 @@
+{
+    "name": "steam-analyst",
+    "version-string": "0.1.0",
+    "dependencies": [
+        {
+            "name": "curl",
+            "features": [
+                "brotli"
+            ]
+        },
+        "nlohmann-json"
+    ]
+}
