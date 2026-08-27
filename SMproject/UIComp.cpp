@@ -54,17 +54,26 @@ void UIComp::EraseButton(int Index)
         buttons[i].Top -= (DefaultY + 5);
     }
     delete buttons[Index].Labl;
+    if (buttons[Index].Labl2 != nullptr) delete buttons[Index].Labl2;
     buttons.erase(buttons.begin() + Index);
 }
 
 void UIComp::Activate() { 
     MoveComponent();
-    IsActive = !IsActive;
+    IsActive = true;
     for (int i = 0; i < buttons.size(); ++i) {
         buttons[i].Active = IsActive;
         buttons[i].ActiveCheck();
     }
-    if (!IsActive) { SetParams(); }
+}
+void UIComp::DeActivate() { 
+    MoveComponent();
+    IsActive = false;
+    for (int i = 0; i < buttons.size(); ++i) {
+        buttons[i].Active = IsActive;
+        buttons[i].ActiveCheck();
+    }
+    SetParams();
 }
 void UIComp::Location(int x, int y)
 {

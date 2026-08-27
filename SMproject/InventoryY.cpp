@@ -11,6 +11,13 @@ InventoryX::InventoryX(Screen* Screen) {
 	screen->SideP->Panels.push_back(Inventory);
 	screen->SideP->SidePanel->AddButton(Button(screen->SideP->SidePanel->buttons.size() + 1, 0, 0, 0, 0, Inventory->UIName));
 }
+InventoryX::~InventoryX() {
+	if (Inventory != nullptr)
+	{
+		Inventory->DeActivate();
+		delete Inventory;
+	}
+}
 void InventoryX::InventoryFunctions(int numb)
 {
 

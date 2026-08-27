@@ -7,6 +7,6 @@ class MainWindow : public wxFrame
 
 public: 
 	MainWindow();
-
+	~MainWindow();
 	Screen* buttonHandler = nullptr;
 };

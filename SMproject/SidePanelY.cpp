@@ -9,18 +9,26 @@ SidePanelX::SidePanelX(Screen* Screen) {
 	SidePanel = new UIComp("SidePanel", 300, 100, {}, wxColour(77, 77, 77), MyBlue);
 	SidePanel->Location(5, 100);
 }
+SidePanelX::~SidePanelX() { 
+	if (SidePanel != nullptr) 
+	{
+		SidePanel->DeActivate();
+		delete SidePanel;
+	}
+}
 void SidePanelX::SidePanelFunctions(int numb)
 {
 	if (numb == 0) return;
 	if (numb > Panels.size()) return;
-	Panels[numb - 1]->Activate();
+	if (Panels[numb - 1]->IsActive) { Panels[numb - 1]->DeActivate(); return; }
+	else Panels[numb - 1]->Activate();
 	int modX = 0, modY = 0;
 	CheckOverlap(Panels[numb - 1], modX, modY);
 	return;
 }
 void SidePanelX::ReActivate(UIComp* Panel)
 {
-	Panel->Activate();
+	Panel->DeActivate();
 	Panel->Activate();
 	int modX = 0, modY = 0;
 	CheckOverlap(Panel, modX, modY);

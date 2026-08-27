@@ -148,6 +148,7 @@
     <ClCompile Include="SidePanelY.cpp" />
     <ClCompile Include="Source.cpp" />
     <ClCompile Include="UIComp.cpp" />
+    <ClCompile Include="UICtrlY.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />

@@ -12,3 +12,7 @@ MainWindow::MainWindow() : wxFrame(nullptr, wxID_ANY, "SMproject", wxPoint(0, 0)
 	SetSizer(sizer);
 	
 }
+MainWindow::~MainWindow()
+{
+	if (buttonHandler != nullptr) delete buttonHandler;
+}

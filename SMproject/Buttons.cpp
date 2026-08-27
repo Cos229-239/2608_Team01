@@ -18,9 +18,20 @@ Screen::Screen(wxFrame* parent)
 	Inve = new InventoryX(this);
 	Port = new PortfolioX(this);
 	Mark = new MarketTrendsX(this);
+	UIC = new UICtrlX(this);
 	//nullptr in .h then new them here
 	SideP->SidePanel->Activate();
 }
+Screen::~Screen()
+{
+	if (SideP != nullptr) delete SideP;
+	if (Inve != nullptr) delete Inve;
+	if (Port != nullptr) delete Port;
+	if (Mark != nullptr) delete Mark;
+	if (UIC != nullptr) delete UIC;
+	if (context != nullptr) delete context;
+}
+
 void Screen::SetPanelSize(wxSize size)
 {
 	SetSize(size);
@@ -32,6 +43,15 @@ void Screen::OnMouseClick(wxMouseEvent& event)
 	int x = event.GetX();
 	int y = event.GetY();
 
+	if (UIC->UICtrl != nullptr) {
+		if (UIC->UICtrl->Check(x, y)) {
+			UIC->ButtonCtrl(x, y);
+			Refresh();
+			return;
+		}
+		else UIC->Del();
+	}
+
 	if (SideP->SidePanel->Check(x, y)) {
 		SideP->SidePanelFunctions(SideP->SidePanel->GetButtonID(x, y));
 		Refresh();
@@ -40,7 +60,7 @@ void Screen::OnMouseClick(wxMouseEvent& event)
 	if (Inve->Inventory->Check(x, y)) {
 		Refresh();
 		return;
-	}
+	}	
 	/*
 	if (ThePanelYouWant.Check(x,y)){
 	//Call that Panels function
@@ -49,17 +69,25 @@ void Screen::OnMouseClick(wxMouseEvent& event)
 	}
 	//Copy all this and ctrl + d then ctrl K + ctrl U
 	*/
+	Refresh();
 }
 void Screen::OnMouseRClick(wxMouseEvent& event)
 {
 	int x = event.GetX();
 	int y = event.GetY();
-
-	if (Inve->Inventory->Check(x, y)) {
-		Refresh();
+	UIC->Del();
+	if (SideP->SidePanel->Check(x, y)) {
+		UIC->Show(x, y, SideP->SidePanel);
+			Refresh();
 		return;
 	}
-
+	for (int i = 0; i < SideP->Panels.size(); ++i) {
+		if (SideP->Panels[i]->Check(x, y)) {
+			UIC->Show(x, y, SideP->Panels[i]);
+			Refresh();
+			return;
+		}
+	}
 	/*
 	if (ThePanelYouWant.Check(x,y)){
 	//Call that Panels function
@@ -68,6 +96,7 @@ void Screen::OnMouseRClick(wxMouseEvent& event)
 	}
 	//Copy all this and ctrl + d then ctrl K + ctrl U
 	*/
+	Refresh();
 }
 
 void Screen::OnPaint(wxPaintEvent& event)
@@ -76,9 +105,11 @@ void Screen::OnPaint(wxPaintEvent& event)
 	dc.Clear();
 	context = wxGraphicsContext::Create(dc);
 	if (!context) return;
-
+	Button BackGround = Button(0, 0, ScreenWidth, 0, ScreenHeight);
+	ShowButton(BackGround, ScreenColor);
 	ShowComponent(SideP->SidePanel);
 	for (int i = 0; i < SideP->Panels.size(); ++i) { ShowComponent(SideP->Panels[i]); }
+	ShowComponent(UIC->UICtrl);
 
 	wxSize dasize = GetSize();
 	double Winwidth = dasize.GetWidth();
@@ -121,8 +152,8 @@ bool Screen::OffScreenY(UIComp* panel)
 
 void Screen::ShowComponent(UIComp* panel)
 {
+	if (panel == nullptr) return;
 	if (!panel->IsActive) return;
-
 	context->SetPen(*wxBLACK_PEN);
 	ShowButton(panel->MainBackground, panel->MBColor);
 	for (int i = 0; i < panel->buttons.size(); ++i) {
@@ -133,9 +164,14 @@ void Screen::ShowButton(Button& button, wxColor color)
 {
 	context->SetBrush(color);
 	context->DrawRectangle(button.Left, button.Top, button.Right, button.Bottom);
+	if (button.Label == "") return;
 	button.MakeText(this, color);
 }
 
+void Screen::UISet(UICtrlX* uic)
+{
+	UIC = uic;
+}
 void Screen::SetWindow(MainWindow* window)
 {
 	this->mainWindow = window;
