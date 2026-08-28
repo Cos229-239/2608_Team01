@@ -54,6 +54,9 @@
     <ClCompile Include="MarketValuation.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SteamAccountService.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="buttonFactory.h">
@@ -78,6 +81,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="MarketValuation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SteamAccountService.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -31,6 +31,7 @@ class SteamAPI
 {
 public: 
     SteamProfile FetchPlayerSummary(const std::string& steamID);
+    std::string ResolveVanityURL(const std::string& vanityName);
 
     std::vector<SteamInventoryItem> FetchCS2Inventory(
         const std::string& steamID);

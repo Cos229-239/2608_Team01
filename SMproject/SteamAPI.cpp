@@ -144,3 +144,63 @@ std::vector<SteamInventoryItem> SteamAPI::FetchCS2Inventory(
     return inventory;
 }
 
+std::string SteamAPI::ResolveVanityURL(const std::string& vanityName)
+{
+    std::string steamID;
+    std::string response;
+    char* apiKey = nullptr;
+    size_t apiKeyLength = 0;
+
+    _dupenv_s(&apiKey, &apiKeyLength, "STEAM_API_KEY");
+
+    if (apiKey == nullptr)
+    {
+        return steamID;
+    }
+
+    CURL* curl = curl_easy_init();
+
+    if (curl)
+    {
+        char* encodedVanity =
+            curl_easy_escape(curl, vanityName.c_str(), 0);
+
+        if (encodedVanity != nullptr)
+        {
+            std::string url =
+                "https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/?key=" +
+                std::string(apiKey) +
+                "&vanityurl=" +
+                encodedVanity;
+
+            curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
+            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
+            curl_easy_setopt(curl, CURLOPT_WRITEDATA, &response);
+            CURLcode result = curl_easy_perform(curl);
+
+            if (result == CURLE_OK && !response.empty())
+            {
+                nlohmann::json jsonResponse =
+                    nlohmann::json::parse(response, nullptr, false);
+
+                if (!jsonResponse.is_discarded() &&
+                    jsonResponse.contains("response"))
+                {
+                    const auto& apiResponse =
+                        jsonResponse["response"];
+
+                    if (apiResponse.value("success", 0) == 1)
+                    {
+                        steamID =
+                            apiResponse.value("steamid", "");
+                    }
+                }
+            }
+            curl_free(encodedVanity);
+        }
+        curl_easy_cleanup(curl);
+    }
+
+    free(apiKey);
+    return steamID;
+}

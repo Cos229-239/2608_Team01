@@ -149,6 +149,7 @@
     <ClCompile Include="SidePanelY.cpp" />
     <ClCompile Include="SkinPortAPI.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="SteamAccountService.cpp" />
     <ClCompile Include="SteamAPI.cpp" />
     <ClCompile Include="UIComp.cpp" />
     <ClCompile Include="UICtrlY.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="MainWindow.h" />
     <ClInclude Include="MarketValuation.h" />
     <ClInclude Include="SkinPortAPI.h" />
+    <ClInclude Include="SteamAccountService.h" />
     <ClInclude Include="SteamAPI.h" />
     <ClInclude Include="UIComp.h" />
   </ItemGroup>
