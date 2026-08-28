@@ -42,12 +42,18 @@
     <ClCompile Include="MarketTrendsY.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-	  <ClCompile Include="SkinPortAPI.cpp">
-		  <Filter>Source Files</Filter>
-	  </ClCompile>
-	  <ClCompile Include="UICtrlY.cpp">
-		  <Filter>Source Files</Filter>
-	  </ClCompile>
+    <ClCompile Include="SkinPortAPI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UICtrlY.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SteamAPI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="MarketValuation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="buttonFactory.h">
@@ -66,6 +72,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SkinPortAPI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SteamAPI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MarketValuation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

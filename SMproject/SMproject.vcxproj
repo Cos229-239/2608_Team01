@@ -144,10 +144,12 @@
     <ClCompile Include="InventoryY.cpp" />
     <ClCompile Include="MainWindow.cpp" />
     <ClCompile Include="MarketTrendsY.cpp" />
+    <ClCompile Include="MarketValuation.cpp" />
     <ClCompile Include="PortfolioY.cpp" />
     <ClCompile Include="SidePanelY.cpp" />
     <ClCompile Include="SkinPortAPI.cpp" />
     <ClCompile Include="Source.cpp" />
+    <ClCompile Include="SteamAPI.cpp" />
     <ClCompile Include="UIComp.cpp" />
     <ClCompile Include="UICtrlY.cpp" />
   </ItemGroup>
@@ -156,7 +158,9 @@
     <ClInclude Include="buttonFactory.h" />
     <ClInclude Include="Buttons.h" />
     <ClInclude Include="MainWindow.h" />
+    <ClInclude Include="MarketValuation.h" />
     <ClInclude Include="SkinPortAPI.h" />
+    <ClInclude Include="SteamAPI.h" />
     <ClInclude Include="UIComp.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
