@@ -11,3 +11,11 @@ MarketTrendsX::MarketTrendsX(Screen* Screen) {
 	screen->SideP->Panels.push_back(MarketTrends);
 	screen->SideP->SidePanel->AddButton(Button(screen->SideP->SidePanel->buttons.size() + 1, 0, 0, 0, 0, MarketTrends->UIName));
 }
+
+MarketTrendsX::~MarketTrendsX() {
+	if (MarketTrends != nullptr)
+	{
+		MarketTrends->DeActivate();
+		delete MarketTrends;
+	}
+}

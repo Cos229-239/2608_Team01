@@ -11,3 +11,11 @@ PortfolioX::PortfolioX(Screen* Screen) {
 	screen->SideP->Panels.push_back(Portfolio);
 	screen->SideP->SidePanel->AddButton(Button(screen->SideP->SidePanel->buttons.size() + 1, 0, 0, 0, 0, Portfolio->UIName));
 }
+
+PortfolioX::~PortfolioX() { 
+	if (Portfolio != nullptr) 
+	{
+		Portfolio->DeActivate();
+		delete Portfolio;
+	}
+}
