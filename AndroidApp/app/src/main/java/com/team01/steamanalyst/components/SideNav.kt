@@ -20,6 +20,7 @@ fun SideNav(
     onNavigate: (Screen) -> Unit,
     modifier: Modifier = Modifier
 ){
+    // Defines the nav items as (destination, label) pairs
     val items = listOf(
         Screen.Home to "Home",
         Screen.Home to "Inventory",
@@ -27,7 +28,7 @@ fun SideNav(
         Screen.Home to "Watchlists",
         Screen.Home to "Profile"
     )
-
+    // Draws a vertical container for the whole sidebar
     Column(
         modifier = modifier
             .fillMaxHeight()
@@ -35,6 +36,7 @@ fun SideNav(
             .background(BgPanel)
             .padding(vertical = 16.dp, horizontal = 8.dp)
     ){
+       // Loop through each nav item and draws a row for it
         items.forEach{(screen, label) ->
             val selected = screen == current
             Box(

@@ -18,10 +18,14 @@ import com.team01.steamanalyst.ui.theme.BgRoot
 @Composable
 
 fun SteamAnalystNav(){
+    // navContoller - Create/remember a navigation controller
+    //backStackEntry/currentRoute - Observes the current back stack entry as a state
+    //(recomposes whenever the navigation destination changes)
     val navController = rememberNavController()
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route ?: Screen.Home.route
 
+    //Maps the raw route string back to a screen enum/sealed-class value
     val current = when (currentRoute){
         Screen.Inventory.route -> Screen.Inventory
         Screen.MarketTrends.route -> Screen.MarketTrends
@@ -30,7 +34,7 @@ fun SteamAnalystNav(){
         else -> Screen.Home
 
     }
-
+    // Local helper: navigate to a screen with standard back-stack behavior
     fun navigate(screen: Screen){
         navController.navigate(screen.route){
             popUpTo(navController.graph.findStartDestination().id) { saveState = true }

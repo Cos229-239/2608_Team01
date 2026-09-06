@@ -12,6 +12,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.team01.steamanalyst.service.SkinportService
 import com.team01.steamanalyst.ui.theme.SteamAnalystTheme
+import com.team01.steamanalyst.navigation.SteamAnalystNav
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -22,6 +23,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             SteamAnalystTheme {
+                SteamAnalystNav()
 
                 var status by remember {
                     mutableStateOf("Loading Skinport data...")

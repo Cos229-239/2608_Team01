@@ -15,6 +15,7 @@ fun TopSearchBar(
     onQueryChange:(String) -> Unit,
     modifier: Modifier = Modifier
 ){
+    // Horizontal container for the whole search bar row
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -29,6 +30,7 @@ fun TopSearchBar(
             color = BgInput,
             shape = RoundedCornerShape(8.dp)
         ){
+            //Inner row to hold the text field, padded inside the surface
             Row(
                 modifier = Modifier
                     .fillMaxSize()
@@ -43,6 +45,7 @@ fun TopSearchBar(
 }
 
 @Composable
+// editable text field with manual placeholder logic
 private fun BasicTextFieldPlaceholder(query: String, onQueryChange: (String) -> Unit){
    androidx.compose.foundation.text.BasicTextField(
        value = query,
