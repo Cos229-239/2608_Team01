@@ -8,3 +8,13 @@ data class SteamProfile(
     val communityVisibilityState: Int = 0,
     val personaState: Int = 0
 )
+
+object MockData{
+
+    val portfolioValue =0.00
+
+    val todaysChangePercent = 0.0
+
+    val cashAvailable = 0.00
+
+}
