@@ -1,16 +1,9 @@
 package com.team01.steamanalyst
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.material3.Text
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import com.team01.steamanalyst.service.SkinportService
 import com.team01.steamanalyst.ui.theme.SteamAnalystTheme
 import com.team01.steamanalyst.navigation.SteamAnalystNav
 import kotlinx.coroutines.Dispatchers
