@@ -6,4 +6,55 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.team01.steamanalyst.components.SideNav
+import com.team01.steamanalyst.screens.HomeScreen
+import com.team01.steamanalyst.ui.theme.BgRoot
+
+@Composable
+
+fun SteamAnalystNav(){
+    val navController = rememberNavController()
+    val backStackEntry by navController.currentBackStackEntryAsState()
+    val currentRoute = backStackEntry?.destination?.route ?: Screen.Home.route
+
+    val current = when (currentRoute){
+        Screen.Inventory.route -> Screen.Inventory
+        Screen.MarketTrends.route -> Screen.MarketTrends
+        Screen.Watchlists.route -> Screen.Watchlists
+        Screen.Profile.route -> Screen.Profile
+        else -> Screen.Home
+
+    }
+
+    fun navigate(screen: Screen){
+        navController.navigate(screen.route){
+            popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+            launchSingleTop = true
+            restoreState = true
+        }
+    }
+
+    Row(modifier = Modifier
+        .fillMaxSize()
+        .background(BgRoot)
+    ){
+        SideNav(current = current, onNavigate = {navigate(it) })
+
+        NavHost(
+            navController = navController,
+            startDestination = Screen.Home.route,
+            modifier = Modifier.fillMaxSize()
+        ){
+            composable (Screen.Home.route){HomeScreen() }
+
+        }
+
+    }
+
+}
 

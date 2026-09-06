@@ -19,3 +19,9 @@ val BgRoot = Color(0xFF000000)
 val TextSecondary = Color(0xFF9AA2B1)
 
 val AccentBlue = Color(0xFF3B6FE0)
+
+val PositiveGreen = Color(0xFF2ECC71)
+
+val BgInput = Color(0xFF1E232C)
+
+val TextMuted = Color(0xFF6B7280)
