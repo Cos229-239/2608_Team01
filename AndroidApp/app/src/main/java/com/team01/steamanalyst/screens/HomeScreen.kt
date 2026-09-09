@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.team01.steamanalyst.components.*
-import com.team01.steamanalyst.data.MockData
 import com.team01.steamanalyst.ui.theme.*
 import java.util.Locale
 
@@ -52,15 +51,15 @@ private fun PortfolioCard(modifier: Modifier = Modifier) {
             .padding(16.dp)
     ) {
         Text("Portfolio value", style = MaterialTheme.typography.titleSmall)
-        Text(formatUsd(MockData.portfolioValue), style = MaterialTheme.typography.bodyMedium)
+        Text(formatUsd(HomeMockData.portfolioValue), style = MaterialTheme.typography.bodyMedium)
         Text(
-            "Today's Change +${String.format(Locale.US, "%.2f", MockData.todaysChangePercent)}%",
+            "Today's Change +${String.format(Locale.US, "%.2f", HomeMockData.todaysChangePercent)}%",
             style = MaterialTheme.typography.labelSmall,
             color = PositiveGreen
         )
         Spacer(Modifier.height(8.dp))
         Text("Cash available", style = MaterialTheme.typography.labelSmall)
-        Text(formatUsd(MockData.cashAvailable), style = MaterialTheme.typography.bodyMedium)
+        Text(formatUsd(HomeMockData.cashAvailable), style = MaterialTheme.typography.bodyMedium)
         Spacer(Modifier.height(12.dp))
 
     }

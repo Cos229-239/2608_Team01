@@ -9,3 +9,4 @@ Prototype pages:
 
 - Sincere Noel
 - Alexander Moore
+- James Baumeister 

@@ -14,6 +14,7 @@ val localProperties = Properties().apply {
 }
 
 val steamApiKey = localProperties.getProperty("STEAM_API_KEY", "")
+val cs2CapApiKey = localProperties.getProperty("CS2CAP_API_KEY", "")
 android {
     namespace = "com.team01.steamanalyst"
     compileSdk {
@@ -32,6 +33,11 @@ android {
             "String",
             "STEAM_API_KEY",
             "\"$steamApiKey\""
+        )
+        buildConfigField(
+            "String",
+            "CS2CAP_API_KEY",
+            "\"$cs2CapApiKey\""
         )
     }
 
@@ -61,6 +67,7 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    testImplementation("org.json:json:20240303")
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
