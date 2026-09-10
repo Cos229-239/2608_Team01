@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
@@ -25,16 +26,18 @@ fun SideNav(
         Screen.Home to "Home",
         Screen.Home to "Inventory",
         Screen.Home to "Market Trends",
-        Screen.Home to "Watchlists",
+        Screen.Home to "Watchlist",
         Screen.Home to "Profile"
     )
     // Draws a vertical container for the whole sidebar
     Column(
         modifier = modifier
             .fillMaxHeight()
-            .width(96.dp)
+            .statusBarsPadding()
+            .width(80.dp)
             .background(BgPanel)
-            .padding(vertical = 16.dp, horizontal = 8.dp)
+            .padding(vertical = 10.dp, horizontal = 10.dp)
+
     ){
        // Loop through each nav item and draws a row for it
         items.forEach{(screen, label) ->
@@ -42,11 +45,13 @@ fun SideNav(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 3.dp)
-                    .clip(shape= RoundedCornerShape(6.dp))
-                    .background(BgPanel)
+                    .padding(vertical = 20.dp)
+                    .clip(RoundedCornerShape(6.dp))
+                    .background(if (selected) NavSelectedBg else BgPanel)
                     .clickable {onNavigate(screen)}
-                    .padding(vertical = 10.dp, horizontal = 8.dp)
+                    .padding(vertical = 10.dp, horizontal = 4.dp)
+
+
             ){
                 Text(
                     text=label,

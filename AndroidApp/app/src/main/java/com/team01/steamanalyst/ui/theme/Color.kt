@@ -10,18 +10,37 @@ val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
-val BgPanel = Color(0xFF12151C)
+
+
 
 val TextPrimary = Color(0xFFF2F3F5)
 
-val BgRoot = Color(0xFF000000)
-
 val TextSecondary = Color(0xFF9AA2B1)
 
-val AccentBlue = Color(0xFF3B6FE0)
+val TextMuted = Color(0xFF6B7280)
 
-val PositiveGreen = Color(0xFF2ECC71)
+val BgPanel = Color(0xFF12151C)
+
+val BgRoot = Color(0xFF000000)
 
 val BgInput = Color(0xFF1E232C)
 
-val TextMuted = Color(0xFF6B7280)
+val BgCard = Color(0xFF1B2029)
+
+val BorderSubtle = Color(0xFF262B36)
+
+val NavSelectedBg = Color(0xFF1F2A44)
+
+val AccentBlue = Color(0xFF3B6FE0)
+
+val AccentPurple = Color(0xFF6C5CE7)
+
+val PositiveGreen = Color(0xFF2ECC71)
+
+val NegativeRed = Color (0xFFE74C3C)
+
+
+
+
+
+
