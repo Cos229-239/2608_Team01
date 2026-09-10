@@ -23,10 +23,10 @@ fun SideNav(
     // Defines the nav items as (destination, label) pairs
     val items = listOf(
         Screen.Home to "Home",
-        Screen.Home to "Inventory",
-        Screen.Home to "Market Trends",
-        Screen.Home to "Watchlists",
-        Screen.Home to "Profile"
+        Screen.Inventory to "Inventory",
+        Screen.MarketTrends to "Market Trends",
+        Screen.Watchlists to "Watchlists",
+        Screen.Profile to "Profile"
     )
     // Draws a vertical container for the whole sidebar
     Column(
