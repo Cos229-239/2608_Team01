@@ -55,7 +55,7 @@ fun SteamAnalystTheme(
     }
 
     MaterialTheme(
-        colorScheme = DarkColorScheme,
+        colorScheme = colorScheme,
         typography = SMTypography,
         content = content
     )

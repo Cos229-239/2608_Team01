@@ -107,16 +107,16 @@ private fun InventorySummaryCard(modifier: Modifier = Modifier){
 }
 
 @Composable
-private fun StatChip(value: String, label: String,modifier: Modifier = Modifier){
-Column(
-    modifier = modifier
-        .clip(RoundedCornerShape(8.dp))
-        .background(BgCard)
-        .padding(vertical = 10.dp, horizontal = 10.dp),
-    horizontalAlignment = Alignment.CenterHorizontally
+private fun StatChip(value: String, label: String,modifier: Modifier = Modifier) {
+    Column(
+        modifier = modifier
+            .clip(RoundedCornerShape(8.dp))
+            .background(BgCard)
+            .padding(vertical = 10.dp, horizontal = 10.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
 
-) {
-    Text(value, style = MaterialTheme.typography.titleSmall, color = TextPrimary)
-    Text(label, style = MaterialTheme.typography.labelSmall)
-}
+    ) {
+        Text(value, style = MaterialTheme.typography.titleSmall, color = TextPrimary)
+        Text(label, style = MaterialTheme.typography.labelSmall)
+    }
 }

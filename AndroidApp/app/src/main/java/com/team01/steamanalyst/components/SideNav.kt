@@ -53,7 +53,7 @@ fun SideNav(
 
             ){
                 Text(
-                    text=label,
+                    text = label,
                     style = MaterialTheme.typography.bodySmall,
                     color = if (selected) AccentBlue else TextSecondary
                 )

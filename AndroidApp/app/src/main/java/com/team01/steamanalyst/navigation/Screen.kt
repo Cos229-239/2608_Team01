@@ -6,7 +6,7 @@ sealed class Screen (val route: String) {
 
     object Inventory : Screen(route = "inventory")
 
-    object MarketTrends: Screen(route = "market trends")
+    object MarketTrends: Screen(route = "market_trends")
 
     object Watchlists: Screen(route = "watchlists")
 

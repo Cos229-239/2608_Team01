@@ -13,7 +13,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.team01.steamanalyst.components.SideNav
 import com.team01.steamanalyst.screens.*
-
 import com.team01.steamanalyst.ui.theme.BgRoot
 
 @Composable
@@ -56,6 +55,7 @@ fun SteamAnalystNav(){
             modifier = Modifier.fillMaxSize()
         ){
             composable (Screen.Home.route){HomeScreen() }
+
 
 
         }
