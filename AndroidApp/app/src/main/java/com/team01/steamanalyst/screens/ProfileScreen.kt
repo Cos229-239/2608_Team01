@@ -14,7 +14,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.team01.steamanalyst.components.*
-import com.team01.steamanalyst.data.MockData
 import com.team01.steamanalyst.ui.theme.*
 import java.util.Locale
 
@@ -118,7 +117,7 @@ fun ShowProfDetails(modifier: Modifier = Modifier) {
                 .clickable(onClick = {detailToShow = 3})
                 .padding(vertical = 10.dp, horizontal = 8.dp))
             {
-                Text("Settings", style = Typography.labelSmall, color = TextPrimary)
+                Text("Settings", style = MaterialTheme.typography.labelSmall, color = TextPrimary)
             }
             Box( modifier = Modifier
                 .width(60.dp)
@@ -128,7 +127,7 @@ fun ShowProfDetails(modifier: Modifier = Modifier) {
                 .clickable(onClick = {detailToShow = 4})
                 .padding(vertical = 10.dp, horizontal = 8.dp))
             {
-                Text("Bank", style = Typography.labelSmall, color = TextPrimary)
+                Text("Bank", style = MaterialTheme.typography.labelSmall, color = TextPrimary)
             }
         }
     }

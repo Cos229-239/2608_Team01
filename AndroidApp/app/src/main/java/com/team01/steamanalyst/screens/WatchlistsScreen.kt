@@ -16,7 +16,6 @@ import androidx.compose.ui.unit.dp
 import com.team01.steamanalyst.MainActivity
 import com.team01.steamanalyst.components.*
 import com.team01.steamanalyst.data.InventoryValuation
-import com.team01.steamanalyst.data.MockData
 import com.team01.steamanalyst.data.SteamAccountData
 import com.team01.steamanalyst.data.SteamInventoryItem
 import com.team01.steamanalyst.data.ValuedInventoryItem
