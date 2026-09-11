@@ -13,7 +13,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.team01.steamanalyst.components.*
-import com.team01.steamanalyst.data.MockData
 import com.team01.steamanalyst.ui.theme.*
 import java.util.Locale
 
