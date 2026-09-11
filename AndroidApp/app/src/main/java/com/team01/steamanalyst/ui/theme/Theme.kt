@@ -1,6 +1,5 @@
 package com.team01.steamanalyst.ui.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -9,16 +8,16 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
     background = BgRoot,
-    secondary = PurpleGrey80,
-    tertiary = Pink80,
     surface = BgPanel,
+    primary = AccentBlue,
+    secondary = AccentPurple,
     onBackground = TextPrimary,
-    primary = AccentBlue
+    onSurface = TextPrimary,
+    error = NegativeRed
 
 )
 
@@ -57,7 +56,7 @@ fun SteamAnalystTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
-        typography = Typography,
+        typography = SMTypography,
         content = content
     )
 }

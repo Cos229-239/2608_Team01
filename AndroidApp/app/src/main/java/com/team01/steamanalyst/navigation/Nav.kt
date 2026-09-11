@@ -17,6 +17,7 @@ import com.team01.steamanalyst.screens.InvenScreen
 import com.team01.steamanalyst.screens.MarketScreen
 import com.team01.steamanalyst.screens.WatchScreen
 import com.team01.steamanalyst.screens.ProfileScreen
+import com.team01.steamanalyst.screens.*
 import com.team01.steamanalyst.ui.theme.BgRoot
 
 @Composable
@@ -63,6 +64,8 @@ fun SteamAnalystNav(){
             composable (Screen.MarketTrends.route){MarketScreen()}
             composable (Screen.Watchlists.route){WatchScreen()}
             composable (Screen.Profile.route){ProfileScreen()}
+
+
 
         }
 
