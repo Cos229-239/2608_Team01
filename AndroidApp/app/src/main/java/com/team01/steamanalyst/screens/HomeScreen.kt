@@ -22,8 +22,7 @@ fun HomeScreen(){
     var query by remember {mutableStateOf("")}
 
     Column(modifier = Modifier
-        .fillMaxSize()
-        .statusBarsPadding()){
+        .fillMaxSize()){
         TopSearchBar(query = query, onQueryChange = {query = it})
 
         LazyColumn(

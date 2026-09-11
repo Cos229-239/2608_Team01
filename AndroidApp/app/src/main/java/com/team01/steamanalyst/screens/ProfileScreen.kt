@@ -3,6 +3,7 @@ package com.team01.steamanalyst.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
@@ -21,7 +22,11 @@ import java.util.Locale
 @Preview
 fun ProfileScreen(){
 
-    Column(Modifier.fillMaxSize()){
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .statusBarsPadding()
+    ){
 
         LazyColumn(
             modifier = Modifier

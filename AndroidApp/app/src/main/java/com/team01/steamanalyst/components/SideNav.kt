@@ -33,7 +33,7 @@ fun SideNav(
         modifier = modifier
             .fillMaxHeight()
             .statusBarsPadding()
-            .width(80.dp)
+            .width(85.dp)
             .background(BgPanel)
             .padding(vertical = 10.dp, horizontal = 10.dp)
 
