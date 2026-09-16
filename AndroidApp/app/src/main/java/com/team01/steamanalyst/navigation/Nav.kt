@@ -36,6 +36,7 @@ fun SteamAnalystNav(){
         Screen.MarketTrends.route -> Screen.MarketTrends
         Screen.Watchlists.route -> Screen.Watchlists
         Screen.Profile.route -> Screen.Profile
+        Screen.LogIn.route -> Screen.LogIn
         else -> Screen.Home
 
     }
@@ -64,6 +65,7 @@ fun SteamAnalystNav(){
             composable (Screen.MarketTrends.route){MarketScreen()}
             composable (Screen.Watchlists.route){WatchScreen()}
             composable (Screen.Profile.route){ProfileScreen()}
+            composable (Screen.LogIn.route){LogInScreen()}
 
 
 

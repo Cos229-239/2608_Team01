@@ -11,6 +11,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import com.team01.steamanalyst.data.SteamAccountData
+import com.team01.steamanalyst.data.SteamProfile
 import com.team01.steamanalyst.service.SkinportService
 import com.team01.steamanalyst.ui.theme.SteamAnalystTheme
 import com.team01.steamanalyst.navigation.SteamAnalystNav
@@ -18,8 +19,11 @@ import com.team01.steamanalyst.service.SteamAccountService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+var steamAccount : SteamAccountData = SteamAccountData()
+var vanityName :String = ""
+var apiKey :String = ""
+
 class MainActivity : ComponentActivity() {
-    //val steamAccount : SteamAccountData = SteamAccountService().loadAccount("","")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
