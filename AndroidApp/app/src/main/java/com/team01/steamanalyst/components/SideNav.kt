@@ -26,7 +26,9 @@ fun SideNav(
         Screen.Inventory to "Inventory",
         Screen.MarketTrends to "Market Trends",
         Screen.Watchlists to "Watchlists",
-        Screen.Profile to "Profile"
+        Screen.Profile to "Profile",
+        //Screen.LogIn to "Login"
+        //Right now the only way to access login screen - Real access should be in profile screen
     )
     // Draws a vertical container for the whole sidebar
     Column(
