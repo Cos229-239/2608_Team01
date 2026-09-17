@@ -17,6 +17,7 @@ import com.team01.steamanalyst.data.SteamInventoryItem
 import com.team01.steamanalyst.ui.theme.*
 import androidx.compose.runtime.remember
 import com.team01.steamanalyst.steamAccount
+import com.team01.steamanalyst.settings
 
 @Composable
 @Preview
@@ -47,7 +48,7 @@ fun InvenScreen() {
 
 @Composable
 fun RShowItem(modifier: Modifier = Modifier, item : SteamInventoryItem, query :String){
-    var showDetails :Boolean by remember { mutableStateOf(false) }
+    var showDetails :Boolean by remember { mutableStateOf(settings.showDetailsInventory) }
     if (query != "") {
         if (!item.name.contains(query, true) and !item.marketName.contains(query, true)) return
     }

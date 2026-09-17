@@ -21,6 +21,7 @@ import com.team01.steamanalyst.data.SteamInventoryItem
 import com.team01.steamanalyst.data.SteamProfile
 import com.team01.steamanalyst.data.ValuedInventoryItem
 import com.team01.steamanalyst.steamAccount
+import com.team01.steamanalyst.settings
 import com.team01.steamanalyst.ui.theme.*
 import com.team01.steamanalyst.valuation.MarketValuation
 import com.team01.steamanalyst.vanityName
@@ -112,6 +113,8 @@ fun ShowProf(modifier: Modifier = Modifier) {
 @Composable
 fun ShowProfDetails(modifier: Modifier = Modifier) {
     var detailToShow :Int by remember { mutableIntStateOf(1) }
+    var priceToShow by remember { mutableIntStateOf(settings.priceToShowWatchlists) }
+    var showDetails :Boolean by remember { mutableStateOf(settings.showDetailsInventory) }
 
     Column(
         modifier = modifier
@@ -270,7 +273,7 @@ fun ShowProfDetails(modifier: Modifier = Modifier) {
                 color = TextPrimary
             )
             Text(
-                "",
+                "change certain UI elements here...",
                 style = MaterialTheme.typography.bodySmall,
                 color = TextSecondary
             )
@@ -279,11 +282,57 @@ fun ShowProfDetails(modifier: Modifier = Modifier) {
                 style = MaterialTheme.typography.bodySmall,
                 color = TextSecondary
             )
-            Text(
-                "Settings stuff will be made soon",
-                style = MaterialTheme.typography.bodySmall,
-                color = TextSecondary
-            )
+                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                    Box( modifier = Modifier
+                        .background(BgPanel)
+                        .width(130.dp)
+                        .height(25.dp)
+                        .clip(shape = RoundedCornerShape(6.dp))
+                        .clickable(onClick = {
+                            priceToShow = Rswitch(priceToShow)
+                            settings.priceToShowWatchlists = priceToShow
+                        })
+                        .background(AccentBlue)
+                        .padding(vertical = 5.dp, horizontal = 7.dp))
+                    {
+                        Text("Price in Watchlist", style = MaterialTheme.typography.bodySmall)
+                    }
+                    Box( modifier = Modifier
+                        .background(BgPanel)
+                        .width(80.dp)
+                        .height(25.dp)
+                        .clip(shape = RoundedCornerShape(6.dp))
+                        .background(BgPanel)
+                        .padding(vertical = 5.dp, horizontal = 7.dp))
+                    {
+                        val showing = when(priceToShow){
+                            2 -> "Median"
+                            3 -> "Minimum"
+                            else -> "Suggested"
+                        }
+                        Text(showing, style = MaterialTheme.typography.bodySmall, color = Purple40)
+                    }
+                }
+            Spacer(Modifier.height(8.dp))
+                    Box( modifier = Modifier
+                        .background(BgPanel)
+                        .width(225.dp)
+                        .height(25.dp)
+                        .clip(shape = RoundedCornerShape(6.dp))
+                        .clickable(onClick = {
+                            showDetails = !showDetails
+                            settings.showDetailsInventory = showDetails
+                        })
+                        .background(AccentBlue)
+                        .padding(vertical = 5.dp, horizontal = 7.dp))
+                    {
+                        val showing = when(showDetails){
+                            true -> "details"
+                            else -> "picture"
+                        }
+                        Text("Show $showing in inventory by default", style = MaterialTheme.typography.bodySmall)
+                    }
+
         }
     }
     else if (detailToShow == 4){ //Bank info - Not sure if this will stay in final
@@ -341,6 +390,11 @@ fun FakeProfile(){
     )
     val daVal : InventoryValuation = InventoryValuation(lisVal, 0, 1, 1.01)
     steamAccount = SteamAccountData(prof, inve, daVal, true)
+}
+private fun Rswitch(swap :Int) :Int {
+    if (swap == 1) return 2
+    if (swap == 2) return 3
+    return 1
 }
 fun SignOut(){
     steamAccount = SteamAccountData()

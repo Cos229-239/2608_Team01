@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.team01.steamanalyst.components.*
 import com.team01.steamanalyst.data.ValuedInventoryItem
 import com.team01.steamanalyst.steamAccount
+import com.team01.steamanalyst.settings
 import com.team01.steamanalyst.ui.theme.*
 
 @Composable
@@ -47,7 +48,7 @@ fun WatchScreen(){
 
 @Composable
 fun RShowItem(modifier: Modifier = Modifier, item : ValuedInventoryItem, query :String){
-    var priceToShow by remember { mutableIntStateOf(1) }
+    var priceToShow by remember { mutableIntStateOf(settings.priceToShowWatchlists) }
     if (query != "") {
         if (!item.steamItem.name.contains(query, true) and !item.steamItem.marketName.contains(query, true)) return
     }
@@ -83,7 +84,7 @@ fun RShowItem(modifier: Modifier = Modifier, item : ValuedInventoryItem, query :
 
             Box(
                 modifier = Modifier
-                    .width(90.dp)
+                    .width(100.dp)
                     .height(75.dp)
                     .clip(shape = RoundedCornerShape(6.dp))
                     .background(BgPanel)
@@ -116,7 +117,7 @@ fun RShowItem(modifier: Modifier = Modifier, item : ValuedInventoryItem, query :
     }
 
 }
-fun Rswitch(swap :Int) :Int {
+private fun Rswitch(swap :Int) :Int {
     if (swap == 1) return 2
     if (swap == 2) return 3
     return 1
