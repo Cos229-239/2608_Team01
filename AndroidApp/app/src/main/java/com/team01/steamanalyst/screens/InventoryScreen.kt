@@ -15,49 +15,13 @@ import androidx.compose.ui.unit.dp
 import com.team01.steamanalyst.components.*
 import com.team01.steamanalyst.data.SteamInventoryItem
 import com.team01.steamanalyst.ui.theme.*
-import java.util.Locale
 import androidx.compose.runtime.remember
-import com.team01.steamanalyst.data.SteamAccountData
-import com.team01.steamanalyst.data.ValuedInventoryItem
+import com.team01.steamanalyst.steamAccount
 
 @Composable
 @Preview
 fun InvenScreen() {
     var query by remember { mutableStateOf("") }
-
-    val mockItem1 = SteamInventoryItem(
-        "AssetID",
-        "ClassID",
-        "InstanceID",
-        7,
-        "DatItem",
-        "TrulyItem",
-        "MarketHash",
-        true,
-        false
-    )
-    val mockItem2 = SteamInventoryItem(
-        "AssetID",
-        "ClassID",
-        "InstanceID",
-        3,
-        "Game",
-        "NotGame",
-        "MarketHash",
-        false,
-        false
-    )
-    val mockItem3 = SteamInventoryItem(
-        "AssetID",
-        "ClassID",
-        "InstanceID",
-        32,
-        "ItemOF",
-        "Doom",
-        "MarketHash",
-        false,
-        true
-    )
 
     Column(Modifier.fillMaxSize()) {
         TopSearchBar(query = query, onQueryChange = { query = it })
@@ -69,25 +33,12 @@ fun InvenScreen() {
             verticalArrangement = Arrangement.spacedBy(16.dp),
             contentPadding = PaddingValues(bottom = 24.dp)
         ) {
-            /* for (item in SteamAccountData().inventory){
+             for (item in steamAccount.inventory){
                 item {
                     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                        RShowItem(Modifier.weight(1.4f), item)
+                        RShowItem(Modifier.weight(1.4f), item, query)
                         Spacer(Modifier.height(10.dp))
                     }
-                }
-            }*/
-            item {
-                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                    RShowItem(Modifier.weight(1.4f), mockItem1)
-                }
-                Spacer(Modifier.height(10.dp))
-                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                    RShowItem(Modifier.weight(1.4f), mockItem2)
-                }
-                Spacer(Modifier.height(10.dp))
-                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                    RShowItem(Modifier.weight(1.4f), mockItem3)
                 }
             }
         }
@@ -95,8 +46,11 @@ fun InvenScreen() {
 }
 
 @Composable
-fun RShowItem(modifier: Modifier = Modifier, item : SteamInventoryItem){
+fun RShowItem(modifier: Modifier = Modifier, item : SteamInventoryItem, query :String){
     var showDetails :Boolean by remember { mutableStateOf(false) }
+    if (query != "") {
+        if (!item.name.contains(query, true) and !item.marketName.contains(query, true)) return
+    }
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(12.dp))

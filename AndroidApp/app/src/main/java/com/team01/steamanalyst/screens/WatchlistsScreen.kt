@@ -13,25 +13,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.team01.steamanalyst.MainActivity
 import com.team01.steamanalyst.components.*
-import com.team01.steamanalyst.data.InventoryValuation
-import com.team01.steamanalyst.data.SteamAccountData
-import com.team01.steamanalyst.data.SteamInventoryItem
 import com.team01.steamanalyst.data.ValuedInventoryItem
-import com.team01.steamanalyst.service.SteamAccountService
+import com.team01.steamanalyst.steamAccount
 import com.team01.steamanalyst.ui.theme.*
-import java.util.Locale
 
 @Composable
 @Preview
 fun WatchScreen(){
     var query by remember {mutableStateOf("")}
-
-    val mockItem = SteamInventoryItem("","","",1,"DaItem", "OfDoom")
-    val mockVal1 = ValuedInventoryItem(mockItem, 5.5, 2.4, 4.0)
-    val mockVal2 = ValuedInventoryItem(mockItem, 6.89, 4.19, 5.79)
-    val mockVal3 = ValuedInventoryItem(mockItem, 3.99, 1.49, 3.00)
 
     Column(Modifier.fillMaxSize()){
         TopSearchBar(query = query, onQueryChange = {query = it})
@@ -44,33 +34,23 @@ fun WatchScreen(){
             contentPadding = PaddingValues(bottom = 24.dp)
         ){
             item {
-                /*
                     for (item in steamAccount.valuation.items) {
                         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                            RShowItem(modifier = Modifier.weight(1.4f), item)
+                            RShowItem(modifier = Modifier.weight(1.4f), item, query)
                         }
+                        Spacer(Modifier.height(10.dp))
                     }
-                */
-                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                   RShowItem(modifier = Modifier.weight(1.4f), mockVal1)
-                }
-                Spacer(Modifier.height(10.dp))
-                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                   RShowItem(modifier = Modifier.weight(1.4f), mockVal2)
-                }
-                Spacer(Modifier.height(10.dp))
-                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                   RShowItem(modifier = Modifier.weight(1.4f), mockVal3)
-                }
             }
         }
     }
 }
 
 @Composable
-fun RShowItem(modifier: Modifier = Modifier, item : ValuedInventoryItem){
+fun RShowItem(modifier: Modifier = Modifier, item : ValuedInventoryItem, query :String){
     var priceToShow by remember { mutableIntStateOf(1) }
-
+    if (query != "") {
+        if (!item.steamItem.name.contains(query, true) and !item.steamItem.marketName.contains(query, true)) return
+    }
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(12.dp))
