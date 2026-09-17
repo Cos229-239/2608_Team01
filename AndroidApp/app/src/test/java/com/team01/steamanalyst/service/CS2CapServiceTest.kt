@@ -1,6 +1,7 @@
 package com.team01.steamanalyst.service
 
 import com.team01.steamanalyst.valuation.MarketplaceAnalyzer
+import com.team01.steamanalyst.valuation.MarketplaceRankingAnalyzer
 import com.team01.steamanalyst.valuation.MarketSummaryBuilder
 import org.junit.Test
 
@@ -20,6 +21,9 @@ class CS2CapServiceTest {
         val summary = MarketSummaryBuilder()
             .build(analysis)
 
+        val rankings = MarketplaceRankingAnalyzer()
+            .rank(analysis)
+
         println("Item: $marketHashName")
         println()
         println("Providers returned: ${prices.size}")
@@ -37,6 +41,18 @@ class CS2CapServiceTest {
                     "${summary.bestPricePercentBelowMedian}%"
         )
         println("Deal rating: ${summary.dealRating}")
+
+        println()
+        println("Marketplace Rankings:")
+
+        rankings.forEach { ranking ->
+            println(
+                "#${ranking.rank} ${ranking.provider} - " +
+                        "$${ranking.price} | " +
+                        "${ranking.percentDifferenceFromMedian}% vs median | " +
+                        "${ranking.percentAboveCheapest}% above cheapest"
+            )
+        }
 
         assert(prices.isNotEmpty()) {
             "CS2Cap returned no marketplace prices"
@@ -56,6 +72,14 @@ class CS2CapServiceTest {
 
         assert(summary.providerCount > 0) {
             "Market summary did not contain usable providers"
+        }
+
+        assert(rankings.isNotEmpty()) {
+            "Marketplace ranking returned no results"
+        }
+
+        assert(rankings.size == analysis.providerCount) {
+            "Marketplace ranking count did not match usable provider count"
         }
     }
 }
