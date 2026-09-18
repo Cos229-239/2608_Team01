@@ -8,6 +8,7 @@ data class SteamInventoryItem(
     val name: String = "",
     val marketName: String = "",
     val marketHashName: String = "",
+    val iconUrl: String = "",
     val tradable: Boolean = false,
     val marketable: Boolean = false
 )

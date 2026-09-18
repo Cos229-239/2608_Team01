@@ -1,5 +1,7 @@
 package com.team01.steamanalyst.service
+
 import com.team01.steamanalyst.data.SteamInventoryItem
+import com.team01.steamanalyst.data.SteamProfile
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
@@ -7,6 +9,7 @@ import org.json.JSONObject
 class SteamService {
 
     private val client = OkHttpClient()
+
     fun resolveVanityURL(vanityName: String, apiKey: String): String {
 
         val request = Request.Builder()
@@ -35,10 +38,11 @@ class SteamService {
             return responseObject.optString("steamid", "")
         }
     }
+
     fun fetchPlayerSummary(
         steamID64: String,
         apiKey: String
-    ): com.team01.steamanalyst.data.SteamProfile {
+    ): SteamProfile {
 
         val request = Request.Builder()
             .url(
@@ -70,7 +74,7 @@ class SteamService {
 
             val player = players.getJSONObject(0)
 
-            return com.team01.steamanalyst.data.SteamProfile(
+            return SteamProfile(
                 steamID = player.optString("steamid", ""),
                 personaName = player.optString("personaname", ""),
                 profileURL = player.optString("profileurl", ""),
@@ -82,6 +86,7 @@ class SteamService {
             )
         }
     }
+
     fun fetchInventory(steamID64: String): List<SteamInventoryItem> {
 
         val request = Request.Builder()
@@ -91,18 +96,26 @@ class SteamService {
         client.newCall(request).execute().use { response ->
 
             if (!response.isSuccessful) {
-                throw Exception("Steam inventory request failed: HTTP ${response.code}")
+                throw Exception(
+                    "Steam inventory request failed: HTTP ${response.code}"
+                )
             }
+
             val responseBody = response.body?.string()
                 ?: throw Exception("Steam returned an empty inventory response")
+
             val json = JSONObject(responseBody)
+
             val assets = json.optJSONArray("assets")
                 ?: return emptyList()
+
             val descriptions = json.optJSONArray("descriptions")
                 ?: return emptyList()
+
             val items = mutableListOf<SteamInventoryItem>()
 
             for (i in 0 until assets.length()) {
+
                 val asset = assets.getJSONObject(i)
 
                 val classID = asset.optString("classid", "")
@@ -111,6 +124,7 @@ class SteamService {
                 var matchingDescription: JSONObject? = null
 
                 for (j in 0 until descriptions.length()) {
+
                     val description = descriptions.getJSONObject(j)
 
                     if (
@@ -123,17 +137,48 @@ class SteamService {
                 }
 
                 if (matchingDescription != null) {
+
+                    val iconPath =
+                        matchingDescription.optString("icon_url", "")
+
+                    val iconUrl =
+                        if (iconPath.isNotBlank()) {
+                            "https://community.cloudflare.steamstatic.com/economy/image/$iconPath"
+                        } else {
+                            ""
+                        }
+
                     items.add(
                         SteamInventoryItem(
                             assetID = asset.optString("assetid", ""),
                             classID = classID,
                             instanceID = instanceID,
-                            amount = asset.optString("amount", "0").toIntOrNull() ?: 0,
-                            name = matchingDescription.optString("name", ""),
-                            marketName = matchingDescription.optString("market_name", ""),
-                            marketHashName = matchingDescription.optString("market_hash_name", ""),
-                            tradable = matchingDescription.optInt("tradable", 0) == 1,
-                            marketable = matchingDescription.optInt("marketable", 0) == 1
+                            amount =
+                                asset.optString("amount", "0")
+                                    .toIntOrNull() ?: 0,
+                            name =
+                                matchingDescription.optString("name", ""),
+                            marketName =
+                                matchingDescription.optString(
+                                    "market_name",
+                                    ""
+                                ),
+                            marketHashName =
+                                matchingDescription.optString(
+                                    "market_hash_name",
+                                    ""
+                                ),
+                            iconUrl = iconUrl,
+                            tradable =
+                                matchingDescription.optInt(
+                                    "tradable",
+                                    0
+                                ) == 1,
+                            marketable =
+                                matchingDescription.optInt(
+                                    "marketable",
+                                    0
+                                ) == 1
                         )
                     )
                 }
