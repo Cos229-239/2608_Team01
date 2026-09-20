@@ -22,12 +22,15 @@ import com.team01.steamanalyst.ui.theme.*
 import com.team01.steamanalyst.vanityName
 
 @Composable
-@Preview
-fun LogInScreen(){
+fun LogInScreen(onLoginSuccess: () -> Unit, onBack: () -> Unit = {}){
     var gettingName : Boolean by remember { mutableStateOf(true) }
     var gettingKey : Boolean by remember { mutableStateOf(false) }
     var query by remember { mutableStateOf("") }
-    if (steamAccount.loaded) return
+    LaunchedEffect(steamAccount.loaded) {
+        if (steamAccount.loaded) {
+            onLoginSuccess()
+        }
+    }
     Column(Modifier.fillMaxSize()) {
         LoginSpace(query = query, onQueryChange = { query = it })
         LazyColumn(
@@ -86,7 +89,7 @@ fun LogInScreen(){
                         .width(120.dp)
                         .height(45.dp)
                         .clip(shape = RoundedCornerShape(6.dp))
-                        .clickable(onClick = {})
+                        .clickable(onClick = onBack)
                         .background(BgInput)
                         .padding(vertical = 10.dp, horizontal = 8.dp))
                     {
@@ -138,6 +141,7 @@ fun LoginSpace(
     Row(
         modifier = modifier
             .fillMaxWidth()
+            .statusBarsPadding()
             .padding(horizontal = 16.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(12.dp)

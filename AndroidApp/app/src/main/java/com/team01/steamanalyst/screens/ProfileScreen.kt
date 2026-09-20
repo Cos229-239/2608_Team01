@@ -29,7 +29,7 @@ import java.util.Locale
 
 @Composable
 @Preview
-fun ProfileScreen(){
+fun ProfileScreen(onLoginClick: () -> Unit = {}){
 
     Column(
         modifier = Modifier
@@ -49,7 +49,7 @@ fun ProfileScreen(){
                     ShowProf(modifier = Modifier.weight(1.4f))
                 }
                     Spacer(Modifier.height(8.dp))
-                    ShowProfDetails(modifier = Modifier.weight(1.4f))
+                    ShowProfDetails(modifier = Modifier.weight(1.4f), onLoginClick = onLoginClick)
             }
         }
     }
@@ -115,7 +115,7 @@ fun ShowProf(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ShowProfDetails(modifier: Modifier = Modifier) {
+fun ShowProfDetails(modifier: Modifier = Modifier, onLoginClick: () -> Unit = {}) {
     var detailToShow :Int by remember { mutableIntStateOf(1) }
 
     Column(
@@ -222,7 +222,7 @@ fun ShowProfDetails(modifier: Modifier = Modifier) {
                     .width(120.dp)
                     .height(45.dp)
                     .clip(shape = RoundedCornerShape(6.dp))
-                    .clickable(onClick = {FakeProfile()}) //<- load fake profile for now - should send you to login screen
+                    .clickable(onClick = onLoginClick) //<- load fake profile for now - should send you to login screen
                     .background(AccentBlue)
                     .padding(vertical = 10.dp, horizontal = 8.dp))
                 {

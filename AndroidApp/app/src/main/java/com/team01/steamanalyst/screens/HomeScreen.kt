@@ -1,6 +1,7 @@
 package com.team01.steamanalyst.screens
 
 
+import android.R
 import androidx.compose.foundation.background
 
 import androidx.compose.foundation.layout.*
@@ -48,6 +49,12 @@ fun HomeScreen(){
 
                         )
                 }
+            }
+            item{
+                Text("Daily Movers", style = MaterialTheme.typography.titleMedium)
+            }
+            item{
+                DailyMoverRow()
             }
             item{
                 Text("Market Trends", style = MaterialTheme.typography.titleMedium)
@@ -117,5 +124,31 @@ private fun StatChip(value: String, label: String,modifier: Modifier = Modifier)
     ) {
         Text(value, style = MaterialTheme.typography.titleSmall, color = TextPrimary)
         Text(label, style = MaterialTheme.typography.labelSmall)
+    }
+}
+
+@Composable
+private fun DailyMoverRow(){
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ){
+
+    }
+}
+
+@Composable
+private fun WatchlistPreviewRow(){
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(8.dp))
+            .background(BgPanel)
+            .padding(12.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ){
+
     }
 }
