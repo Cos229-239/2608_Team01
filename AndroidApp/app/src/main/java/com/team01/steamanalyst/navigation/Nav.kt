@@ -1,10 +1,14 @@
 package com.team01.steamanalyst.navigation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -12,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.team01.steamanalyst.components.SideNav
+import com.team01.steamanalyst.components.TopSearchBar
 import com.team01.steamanalyst.screens.HomeScreen
 import com.team01.steamanalyst.screens.InvenScreen
 import com.team01.steamanalyst.screens.MarketScreen
@@ -21,7 +26,6 @@ import com.team01.steamanalyst.screens.*
 import com.team01.steamanalyst.ui.theme.BgRoot
 
 @Composable
-
 fun SteamAnalystNav(){
     // navContoller - Create/remember a navigation controller
     //backStackEntry/currentRoute - Observes the current back stack entry as a state
@@ -40,6 +44,7 @@ fun SteamAnalystNav(){
         else -> Screen.Home
 
     }
+    var query by remember {mutableStateOf("")}
     // Local helper: navigate to a screen with standard back-stack behavior
     fun navigate(screen: Screen){
         navController.navigate(screen.route){
@@ -53,7 +58,10 @@ fun SteamAnalystNav(){
         .fillMaxSize()
         .background(BgRoot)
     ){
-        SideNav(current = current, onNavigate = {navigate(it) })
+        if(current != Screen.LogIn) {
+            SideNav(current = current, onNavigate = { navigate(it) })
+        }
+        
 
         NavHost(
             navController = navController,
@@ -64,8 +72,15 @@ fun SteamAnalystNav(){
             composable (Screen.Inventory.route){InvenScreen()}
             composable (Screen.MarketTrends.route){MarketScreen()}
             composable (Screen.Watchlists.route){WatchScreen()}
-            composable (Screen.Profile.route){ProfileScreen()}
-            composable (Screen.LogIn.route){LogInScreen()}
+            composable (Screen.Profile.route){
+                ProfileScreen(onLoginClick = { navigate (Screen.LogIn)})
+            }
+            composable (Screen.LogIn.route){
+                LogInScreen(
+                    onLoginSuccess = {navigate (Screen.Home)},
+                    onBack = {navController.popBackStack()}
+                )
+            }
 
 
 

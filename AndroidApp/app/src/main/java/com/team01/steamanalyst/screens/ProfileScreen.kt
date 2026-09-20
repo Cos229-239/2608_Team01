@@ -3,6 +3,7 @@ package com.team01.steamanalyst.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,9 +32,13 @@ import java.util.Locale
 
 @Composable
 @Preview
-fun ProfileScreen(){
+fun ProfileScreen(onLoginClick: () -> Unit = {}){
 
-    Column(Modifier.fillMaxSize()){
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .statusBarsPadding()
+    ){
 
         LazyColumn(
             modifier = Modifier
@@ -47,7 +52,7 @@ fun ProfileScreen(){
                     ShowProf(modifier = Modifier.weight(1.4f))
                 }
                     Spacer(Modifier.height(8.dp))
-                    ShowProfDetails(modifier = Modifier.weight(1.4f))
+                    ShowProfDetails(modifier = Modifier.weight(1.4f), onLoginClick = onLoginClick)
             }
         }
     }
@@ -117,7 +122,7 @@ fun ShowProf(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ShowProfDetails(modifier: Modifier = Modifier) {
+fun ShowProfDetails(modifier: Modifier = Modifier, onLoginClick: () -> Unit = {}) {
     var detailToShow :Int by remember { mutableIntStateOf(1) }
     var priceToShow by remember { mutableIntStateOf(settings.priceToShowWatchlists) }
     var showDetails :Boolean by remember { mutableStateOf(settings.showDetailsInventory) }
@@ -226,7 +231,7 @@ fun ShowProfDetails(modifier: Modifier = Modifier) {
                     .width(120.dp)
                     .height(45.dp)
                     .clip(shape = RoundedCornerShape(6.dp))
-                    .clickable(onClick = {FakeProfile()}) //<- load fake profile for now - should send you to login screen
+                    .clickable(onClick = onLoginClick) //<- load fake profile for now - should send you to login screen
                     .background(AccentBlue)
                     .padding(vertical = 10.dp, horizontal = 8.dp))
                 {
