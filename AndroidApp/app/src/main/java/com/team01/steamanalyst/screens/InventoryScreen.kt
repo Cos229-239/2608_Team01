@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -16,6 +17,7 @@ import com.team01.steamanalyst.components.*
 import com.team01.steamanalyst.data.SteamInventoryItem
 import com.team01.steamanalyst.ui.theme.*
 import androidx.compose.runtime.remember
+import coil.compose.AsyncImage
 import com.team01.steamanalyst.steamAccount
 import com.team01.steamanalyst.settings
 
@@ -23,7 +25,7 @@ import com.team01.steamanalyst.settings
 @Preview
 fun InvenScreen() {
     var query by remember { mutableStateOf("") }
-
+    var spaced :Boolean by remember { mutableStateOf(true) }
     Column(Modifier.fillMaxSize()) {
         TopSearchBar(query = query, onQueryChange = { query = it })
 
@@ -31,15 +33,15 @@ fun InvenScreen() {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(0.dp),
             contentPadding = PaddingValues(bottom = 24.dp)
         ) {
              for (item in steamAccount.inventory){
                 item {
                     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                        RShowItem(Modifier.weight(1.4f), item, query)
-                        Spacer(Modifier.height(10.dp))
+                        spaced = RShowItem(Modifier.weight(1.4f), item, query)
                     }
+                    if (spaced) Spacer(Modifier.height(10.dp))
                 }
             }
         }
@@ -47,10 +49,10 @@ fun InvenScreen() {
 }
 
 @Composable
-fun RShowItem(modifier: Modifier = Modifier, item : SteamInventoryItem, query :String){
+fun RShowItem(modifier: Modifier = Modifier, item : SteamInventoryItem, query :String) : Boolean{
     var showDetails :Boolean by remember { mutableStateOf(settings.showDetailsInventory) }
     if (query != "") {
-        if (!item.name.contains(query, true) and !item.marketName.contains(query, true)) return
+        if (!item.name.contains(query, true) and !item.marketName.contains(query, true)) return false
     }
     Column(
         modifier = modifier
@@ -70,11 +72,10 @@ fun RShowItem(modifier: Modifier = Modifier, item : SteamInventoryItem, query :S
                     .background(BgPanel)
                     .padding(vertical = 10.dp, horizontal = 8.dp)
             ) {
-                //Code for the picture goes here
-                Text(
-                    text = "PictureHere",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = TextSecondary
+                AsyncImage(
+                    model = item.iconUrl,
+                    contentDescription = "none",
+                    modifier = Modifier.clip(CircleShape)
                 )
             }
         }
@@ -102,4 +103,5 @@ fun RShowItem(modifier: Modifier = Modifier, item : SteamInventoryItem, query :S
 
         }
     }
+    return true
 }

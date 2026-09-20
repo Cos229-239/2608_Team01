@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -13,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.team01.steamanalyst.components.*
 import com.team01.steamanalyst.data.ValuedInventoryItem
 import com.team01.steamanalyst.steamAccount
@@ -23,7 +25,7 @@ import com.team01.steamanalyst.ui.theme.*
 @Preview
 fun WatchScreen(){
     var query by remember {mutableStateOf("")}
-
+    var spaced :Boolean by remember { mutableStateOf(true) }
     Column(Modifier.fillMaxSize()){
         TopSearchBar(query = query, onQueryChange = {query = it})
 
@@ -31,15 +33,15 @@ fun WatchScreen(){
             modifier = Modifier
                 .fillMaxSize()
                 .padding(horizontal = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(0.dp),
             contentPadding = PaddingValues(bottom = 24.dp)
         ){
             item {
                     for (item in steamAccount.valuation.items) {
                         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                            RShowItem(modifier = Modifier.weight(1.4f), item, query)
+                           spaced = RShowItem(modifier = Modifier.weight(1.4f), item, query)
                         }
-                        Spacer(Modifier.height(10.dp))
+                        if (spaced) Spacer(Modifier.height(10.dp))
                     }
             }
         }
@@ -47,11 +49,12 @@ fun WatchScreen(){
 }
 
 @Composable
-fun RShowItem(modifier: Modifier = Modifier, item : ValuedInventoryItem, query :String){
+fun RShowItem(modifier: Modifier = Modifier, item : ValuedInventoryItem, query :String) :Boolean {
     var priceToShow by remember { mutableIntStateOf(settings.priceToShowWatchlists) }
     if (query != "") {
-        if (!item.steamItem.name.contains(query, true) and !item.steamItem.marketName.contains(query, true)) return
+        if (!item.steamItem.name.contains(query, true) and !item.steamItem.marketName.contains(query, true)) return false
     }
+
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(12.dp))
@@ -68,14 +71,14 @@ fun RShowItem(modifier: Modifier = Modifier, item : ValuedInventoryItem, query :
                     .height(75.dp)
                     .clip(shape = RoundedCornerShape(6.dp))
                     .background(BgPanel)
-                    .padding(vertical = 30.dp, horizontal = 8.dp)
+                    .padding(vertical = 10.dp, horizontal = 8.dp)
             )
             {
                 //Code for the picture goes here
-                Text(
-                    text = "PictureHere",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = TextSecondary
+                AsyncImage(
+                    model = item.steamItem.iconUrl,
+                    contentDescription = "none",
+                    modifier = Modifier.clip(CircleShape)
                 )
             }
 
@@ -115,7 +118,7 @@ fun RShowItem(modifier: Modifier = Modifier, item : ValuedInventoryItem, query :
         }
 
     }
-
+return true
 }
 private fun Rswitch(swap :Int) :Int {
     if (swap == 1) return 2

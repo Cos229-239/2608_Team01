@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -13,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.team01.steamanalyst.apiKey
 import com.team01.steamanalyst.components.*
 import com.team01.steamanalyst.data.InventoryValuation
@@ -64,7 +66,7 @@ fun ShowProf(modifier: Modifier = Modifier) {
             if (steamAccount.loaded) {
                 Box(
                     modifier = Modifier
-                        .background(Purple80)
+                        .background(BgPanel)
                         .width(90.dp)
                         .height(125.dp)
                         .clip(shape = RoundedCornerShape(6.dp))
@@ -72,7 +74,11 @@ fun ShowProf(modifier: Modifier = Modifier) {
                         .padding(vertical = 10.dp, horizontal = 8.dp)
                 )
                 {
-                    Text(steamAccount.profile.profileURL, style = MaterialTheme.typography.labelSmall)
+                    AsyncImage(
+                        model = steamAccount.profile.profileURL,
+                        contentDescription = "none",
+                        modifier = Modifier.clip(CircleShape)
+                    )
                 }
                 Box(
                     modifier = Modifier
@@ -368,19 +374,19 @@ fun ShowProfDetails(modifier: Modifier = Modifier) {
 }
 
 fun FakeProfile(){
-    val prof :SteamProfile = SteamProfile("MyID", "PersonaAF", "wwwdotURLdotcom", "wwwdotAvatardotgov", 1, 1)
+    val prof :SteamProfile = SteamProfile("MyID", "DatFatCat77", "https://freepngimg.com/download/painting/84774-square-art-pixel-rectangle-cat-hd-image-free-png.png", "wwwdotAvatardotgov", 1, 1)
     val inve :List<SteamInventoryItem> = listOf(
-        SteamInventoryItem("001", "101", "Inst1", 5, "TheOne", "FirstOfAll", "Won", true, false),
-        SteamInventoryItem("002", "202", "Inst2", 4, "SecondComing", "Secondly", "Too", true, true),
-        SteamInventoryItem("003", "303", "Inst3", 9, "RunnerUp", "AndLastly", "tree", false, false),
-        SteamInventoryItem("005", "505", "Inst5", 12, "Skipper", "FinaleNOT", "FiveMind", true, false),
-        SteamInventoryItem("004", "404", "Inst4", 6, "SoLazy", "Point__.", "ForWhat", true, true),
+        SteamInventoryItem("001", "101", "Inst1", 5, "TheOne", "FirstOfAll", "Won", true, false, "https://i.pinimg.com/736x/31/af/0a/31af0a4aae975826c47842210a43a62b.jpg"),
+        SteamInventoryItem("002", "202", "Inst2", 4, "SecondComing", "Secondly", "Too", true, true, "https://img.magnific.com/premium-vector/pixelated-sword-icon_475147-3919.jpg"),
+        SteamInventoryItem("003", "303", "Inst3", 9, "RunnerUp", "AndLastly", "tree", false, false, "https://www.shutterstock.com/image-vector/pixel-purple-arrow-8-bit-260nw-2613475247.jpg"),
+        SteamInventoryItem("005", "505", "Inst5", 12, "Skipper", "FinaleNOT", "FiveMind", true, false, "https://static.vecteezy.com/system/resources/previews/061/889/217/non_2x/pixelated-earth-globe-icon-global-connectivity-international-relations-and-environmental-awareness-symbol-retro-style-world-representation-isolated-illustration-vector.jpg"),
+        SteamInventoryItem("004", "404", "Inst4", 6, "SoLazy", "Point__.", "ForWhat", true, true, "https://www.shutterstock.com/image-vector/sleeping-cat-icon-pixel-8-260nw-2662730963.jpg"),
     )
-    val item1 = SteamInventoryItem("045", "213", "InstaK", 1, "Emag", "oediv", "mocwww", true, false)
-    val item2 = SteamInventoryItem("024", "312", "InstaL", 1, "Video", "Game", "wwwcom", true, true)
-    val item3 = SteamInventoryItem("079", "132", "InstaW", 1, "Playableish", "IThink", "hope", false, false)
-    val item5 = SteamInventoryItem("011", "321", "InstaG", 1, "PureVibes", "DaTimes", "Nastguj", true, false)
-    val item4 = SteamInventoryItem("040", "123", "Insta1", 1, "LazyPlus", "Plush", "Comfort", true, true)
+    val item1 = SteamInventoryItem("045", "213", "InstaK", 1, "UltraPets", "Purrs", "meowsy", true, false, "https://www.shutterstock.com/image-vector/pixel-art-cute-cat-face-260nw-2754859093.jpg")
+    val item2 = SteamInventoryItem("024", "312", "InstaL", 1, "Video", "Game", "wwwcom", true, true, "https://static.vecteezy.com/system/resources/thumbnails/020/577/584/small/white-stick-controller-in-pixel-art-style-vector.jpg")
+    val item3 = SteamInventoryItem("079", "132", "InstaW", 1, "Playableish", "IThink", "hope", false, false, "https://previews.123rf.com/images/vectorman92/vectorman921806/vectorman92180600095/102613555-letter-w-colorful-pixel-art-alphabet-typeface-with-shadow-vector-typography-design.jpg")
+    val item5 = SteamInventoryItem("011", "321", "InstaG", 1, "PureVibes", "DaTimes", "Nastguj", true, false, "https://static.vecteezy.com/system/resources/thumbnails/024/321/151/small/sleep-pixel-perfect-gradient-linear-ui-icon-sleeping-mode-muted-sound-relaxation-time-bedtime-line-color-user-interface-symbol-modern-style-pictogram-isolated-outline-illustration-vector.jpg")
+    val item4 = SteamInventoryItem("040", "123", "Insta1", 1, "LazyPlus", "Plush", "Comfort", true, true, "https://img.magnific.com/premium-vector/pixel-art-comfort-bed-furniture-icon-illustration-vector-game-design_1038602-2357.jpg")
     val lisVal : List<ValuedInventoryItem> = listOf(
         ValuedInventoryItem(item1, 12.99, 5.89, 9.99, false),
         ValuedInventoryItem(item2, 23.89, 22.00, 22.29, false),
