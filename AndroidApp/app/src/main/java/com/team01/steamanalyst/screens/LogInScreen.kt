@@ -39,15 +39,15 @@ fun LogInScreen(){
         ) {
             item {
                 Row(horizontalArrangement = Arrangement.spacedBy(2.dp)){
-                    if (gettingName) Text("Enter vanity name above", style = MaterialTheme.typography.bodySmall)
-                    else if (gettingKey) Text("Enter api key above", style = MaterialTheme.typography.bodySmall)
-                    else Text("If this information is correct, press Enter", style = MaterialTheme.typography.bodySmall)
+                    if (gettingName) Text("Enter vanity name above", style = MaterialTheme.typography.bodySmall, color = TextPrimary)
+                    else if (gettingKey) Text("Enter api key above", style = MaterialTheme.typography.bodySmall, color = TextPrimary)
+                    else Text("If this information is correct, press Enter", style = MaterialTheme.typography.bodySmall, color = TextPrimary)
                 }
                 Spacer(Modifier.height(20.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(2.dp)){
-                    Text("Vanity Name", style = MaterialTheme.typography.bodySmall)
+                    Text("Vanity Name", style = MaterialTheme.typography.bodySmall, color = TextPrimary)
                     Spacer(Modifier.width(100.dp))
-                    Text("Api Key", style = MaterialTheme.typography.bodySmall)
+                    Text("Api Key", style = MaterialTheme.typography.bodySmall, color = TextPrimary)
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(16.dp)){
                     Box( modifier = Modifier
@@ -62,7 +62,7 @@ fun LogInScreen(){
                         .background(BgInput)
                         .padding(vertical = 10.dp, horizontal = 8.dp))
                     {
-                        Text(vanityName, style = MaterialTheme.typography.bodySmall)
+                        Text(vanityName, style = MaterialTheme.typography.bodySmall, color = Purple40)
                     }
                     Box( modifier = Modifier
                         .background(BgPanel)
@@ -76,7 +76,7 @@ fun LogInScreen(){
                         .background(BgInput)
                         .padding(vertical = 10.dp, horizontal = 8.dp))
                     {
-                        Text(apiKey, style = MaterialTheme.typography.bodySmall)
+                        Text(apiKey, style = MaterialTheme.typography.bodySmall, color = Purple40)
                     }
                 }
                 Spacer(Modifier.height(160.dp))
@@ -90,7 +90,7 @@ fun LogInScreen(){
                         .background(BgInput)
                         .padding(vertical = 10.dp, horizontal = 8.dp))
                     {
-                        Text("Back", style = MaterialTheme.typography.bodyLarge)
+                        Text("Back", style = MaterialTheme.typography.bodyLarge, color = TextPrimary)
                     }
                     Box( modifier = Modifier
                         .background(BgPanel)

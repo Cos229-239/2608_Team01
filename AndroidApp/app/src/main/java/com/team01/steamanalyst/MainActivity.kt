@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import com.team01.steamanalyst.app.settings.Settings
 import com.team01.steamanalyst.data.SteamAccountData
 import com.team01.steamanalyst.data.SteamProfile
 import com.team01.steamanalyst.service.SkinportService
@@ -19,6 +20,7 @@ import com.team01.steamanalyst.service.SteamAccountService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+var settings : Settings = Settings()
 var steamAccount : SteamAccountData = SteamAccountData()
 var vanityName :String = ""
 var apiKey :String = ""
