@@ -25,9 +25,10 @@ import com.team01.steamanalyst.vanityName
 fun LogInScreen(onLoginSuccess: () -> Unit, onBack: () -> Unit = {}){
     var gettingName : Boolean by remember { mutableStateOf(true) }
     var gettingKey : Boolean by remember { mutableStateOf(false) }
+    var loaded : Boolean by remember { mutableStateOf(steamAccount.loaded) }
     var query by remember { mutableStateOf("") }
-    LaunchedEffect(steamAccount.loaded) {
-        if (steamAccount.loaded) {
+    LaunchedEffect(loaded) {
+        if (loaded) {
             onLoginSuccess()
         }
     }
@@ -101,7 +102,7 @@ fun LogInScreen(onLoginSuccess: () -> Unit, onBack: () -> Unit = {}){
                         .height(45.dp)
                         .clip(shape = RoundedCornerShape(6.dp))
                         .clickable(onClick = {
-                            checker(gettingName, gettingKey, query)
+                            loaded = checker(gettingName, gettingKey, query)
                             gettingName = false
                             gettingKey = false
                             query = ""
@@ -119,16 +120,17 @@ fun LogInScreen(onLoginSuccess: () -> Unit, onBack: () -> Unit = {}){
     }
 }
 
-fun checker(gettingName :Boolean, gettingKey :Boolean, query :String){
+fun checker(gettingName :Boolean, gettingKey :Boolean, query :String) :Boolean {
     if (gettingName){
         vanityName = query
-        return
+        return false
     }
     if (gettingKey){
         apiKey = query
-        return
+        return false
     }
     steamAccount = SteamAccountService().loadAccount(vanityName, apiKey)
+    return true
 }
 
 @Composable
