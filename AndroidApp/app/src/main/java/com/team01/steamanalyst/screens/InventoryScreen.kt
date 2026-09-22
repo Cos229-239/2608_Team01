@@ -25,7 +25,9 @@ import com.team01.steamanalyst.settings
 @Preview
 fun InvenScreen() {
     var query by remember { mutableStateOf("") }
-    var spaced :Boolean by remember { mutableStateOf(true) }
+    var spaced :Boolean by remember { mutableStateOf(settings.showDetailsInventory) }
+    var sortOrder :String by remember { mutableStateOf(settings.SortByInventory) }
+    var ascending : Boolean by remember { mutableStateOf(settings.AscendingInventory) }
     Column(Modifier.fillMaxSize()) {
         TopSearchBar(query = query, onQueryChange = { query = it })
 
@@ -36,10 +38,68 @@ fun InvenScreen() {
             verticalArrangement = Arrangement.spacedBy(0.dp),
             contentPadding = PaddingValues(bottom = 24.dp)
         ) {
-             for (item in steamAccount.inventory){
+            item{
+                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                    Box(
+                        modifier = Modifier
+                            .width(80.dp)
+                            .height((40.dp))
+                            .padding(vertical = 3.dp)
+                            .clip(shape = RoundedCornerShape(6.dp))
+                            .background(Purple40)
+                            .padding(vertical = 10.dp, horizontal = 8.dp)
+                            .clickable(onClick = {
+                                ascending = !ascending
+                                settings.AscendingInventory = ascending
+                            })
+                    ) {
+                        if (ascending) Text("Ascending", style = MaterialTheme.typography.labelSmall)
+                        else Text("Descending", style = MaterialTheme.typography.labelSmall)
+                    }
+                    Box(
+                        modifier = Modifier
+                            .width(160.dp)
+                            .height((40.dp))
+                            .padding(vertical = 3.dp)
+                            .clip(shape = RoundedCornerShape(6.dp))
+                            .background(Purple40)
+                            .padding(vertical = 10.dp, horizontal = 8.dp)
+                            .clickable(onClick = {
+                                sortOrder = switchSort(sortOrder)
+                                settings.SortByInventory = sortOrder
+                            })
+                    ) {
+                        Text("Sort Type: $sortOrder", style = MaterialTheme.typography.labelSmall)
+                    }
+                }
+                Spacer(Modifier.height(10.dp))
+                }
+
+            var listItems :List<SteamInventoryItem>
+            if (ascending) {
+                listItems = when (sortOrder) {
+                    "Name" -> steamAccount.inventory.sortedBy { it.name }
+                    "MarketName" -> steamAccount.inventory.sortedBy { it.marketName }
+                    "Amount" -> steamAccount.inventory.sortedBy { it.amount }
+                    "Marketable" -> steamAccount.inventory.sortedBy { it.marketable }
+                    "Tradable" -> steamAccount.inventory.sortedBy { it.tradable }
+                    else -> steamAccount.inventory
+                }
+            }
+            else {
+                listItems = when (sortOrder) {
+                    "Name" -> steamAccount.inventory.sortedByDescending { it.name }
+                    "MarketName" -> steamAccount.inventory.sortedByDescending { it.marketName }
+                    "Amount" -> steamAccount.inventory.sortedByDescending { it.amount }
+                    "Marketable" -> steamAccount.inventory.sortedByDescending { it.marketable }
+                    "Tradable" -> steamAccount.inventory.sortedByDescending { it.tradable }
+                    else -> steamAccount.inventory
+                }
+            }
+             for (item in listItems){
                 item {
                     Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                        spaced = RShowItem(Modifier.weight(1.4f), item, query)
+                        spaced = rShowItem(Modifier.weight(1.4f), item, query)
                     }
                     if (spaced) Spacer(Modifier.height(10.dp))
                 }
@@ -49,7 +109,7 @@ fun InvenScreen() {
 }
 
 @Composable
-fun RShowItem(modifier: Modifier = Modifier, item : SteamInventoryItem, query :String) : Boolean{
+fun rShowItem(modifier: Modifier = Modifier, item : SteamInventoryItem, query :String) : Boolean{
     var showDetails :Boolean by remember { mutableStateOf(settings.showDetailsInventory) }
     if (query != "") {
         if (!item.name.contains(query, true) and !item.marketName.contains(query, true)) return false
@@ -104,4 +164,12 @@ fun RShowItem(modifier: Modifier = Modifier, item : SteamInventoryItem, query :S
         }
     }
     return true
+}
+private fun switchSort(sortOrder:String):String{
+    if (sortOrder == "NoSort") return "Name"
+    if (sortOrder == "Name") return "MarketName"
+    if (sortOrder == "MarketName") return "Amount"
+    if (sortOrder == "Amount") return "Marketable"
+    if (sortOrder == "Marketable") return "Tradable"
+    return "NoSort"
 }

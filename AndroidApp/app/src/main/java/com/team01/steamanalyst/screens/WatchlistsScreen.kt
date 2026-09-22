@@ -26,6 +26,8 @@ import com.team01.steamanalyst.ui.theme.*
 fun WatchScreen(){
     var query by remember {mutableStateOf("")}
     var spaced :Boolean by remember { mutableStateOf(true) }
+    var sortOrder :String by remember { mutableStateOf(settings.SortByWatchlists) }
+    var ascending : Boolean by remember { mutableStateOf(settings.AscendingWatchlists) }
     Column(Modifier.fillMaxSize()){
         TopSearchBar(query = query, onQueryChange = {query = it})
 
@@ -36,10 +38,68 @@ fun WatchScreen(){
             verticalArrangement = Arrangement.spacedBy(0.dp),
             contentPadding = PaddingValues(bottom = 24.dp)
         ){
+            item{
+                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                    Box(
+                        modifier = Modifier
+                            .width(80.dp)
+                            .height((40.dp))
+                            .padding(vertical = 3.dp)
+                            .clip(shape = RoundedCornerShape(6.dp))
+                            .background(Purple40)
+                            .padding(vertical = 10.dp, horizontal = 8.dp)
+                            .clickable(onClick = {
+                                ascending = !ascending
+                                settings.AscendingWatchlists = ascending
+                            })
+                    ) {
+                        if (ascending) Text("Ascending", style = MaterialTheme.typography.labelSmall)
+                        else Text("Descending", style = MaterialTheme.typography.labelSmall)
+                    }
+                    Box(
+                        modifier = Modifier
+                            .width(160.dp)
+                            .height((40.dp))
+                            .padding(vertical = 3.dp)
+                            .clip(shape = RoundedCornerShape(6.dp))
+                            .background(Purple40)
+                            .padding(vertical = 10.dp, horizontal = 8.dp)
+                            .clickable(onClick = {
+                                sortOrder = switchSort(sortOrder)
+                                settings.SortByWatchlists = sortOrder
+                            })
+                    ) {
+                        Text("Sort Type: $sortOrder", style = MaterialTheme.typography.labelSmall)
+                    }
+                }
+                Spacer(Modifier.height(10.dp))
+            }
+
+            val listItems : List<ValuedInventoryItem>
+            if (ascending){
+                listItems = when(sortOrder){
+                    "Name" -> steamAccount.valuation.items.sortedBy { it.steamItem.name }
+                    "MarketName" -> steamAccount.valuation.items.sortedBy { it.steamItem.marketName }
+                    "Price(Sugg)" -> steamAccount.valuation.items.sortedBy { it.suggestedPrice }
+                    "Price(Med)" -> steamAccount.valuation.items.sortedBy { it.medianPrice }
+                    "Price(Min)" -> steamAccount.valuation.items.sortedBy { it.minPrice }
+                    else -> steamAccount.valuation.items
+                }
+            }
+            else {
+                listItems = when(sortOrder){
+                    "Name" -> steamAccount.valuation.items.sortedByDescending { it.steamItem.name }
+                    "MarketName" -> steamAccount.valuation.items.sortedByDescending { it.steamItem.marketName }
+                    "Price(Sugg)" -> steamAccount.valuation.items.sortedByDescending { it.suggestedPrice }
+                    "Price(Med)" -> steamAccount.valuation.items.sortedByDescending { it.medianPrice }
+                    "Price(Min)" -> steamAccount.valuation.items.sortedByDescending { it.minPrice }
+                    else -> steamAccount.valuation.items
+                }
+            }
             item {
-                    for (item in steamAccount.valuation.items) {
+                    for (item in listItems) {
                         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                           spaced = RShowItem(modifier = Modifier.weight(1.4f), item, query)
+                           spaced = rShowItem(modifier = Modifier.weight(1.4f), item, query)
                         }
                         if (spaced) Spacer(Modifier.height(10.dp))
                     }
@@ -49,7 +109,7 @@ fun WatchScreen(){
 }
 
 @Composable
-fun RShowItem(modifier: Modifier = Modifier, item : ValuedInventoryItem, query :String) :Boolean {
+fun rShowItem(modifier: Modifier = Modifier, item : ValuedInventoryItem, query :String) :Boolean {
     var priceToShow by remember { mutableIntStateOf(settings.priceToShowWatchlists) }
     if (query != "") {
         if (!item.steamItem.name.contains(query, true) and !item.steamItem.marketName.contains(query, true)) return false
@@ -124,4 +184,12 @@ private fun Rswitch(swap :Int) :Int {
     if (swap == 1) return 2
     if (swap == 2) return 3
     return 1
+}
+private fun switchSort(sortOrder:String):String{
+    if (sortOrder == "NoSort") return "Name"
+    if (sortOrder == "Name") return "MarketName"
+    if (sortOrder == "MarketName") return "Price(Sugg)"
+    if (sortOrder == "Price(Sugg)") return "Price(Med)"
+    if (sortOrder == "Price(Med)") return "Price(Min)"
+    return "NoSort"
 }
