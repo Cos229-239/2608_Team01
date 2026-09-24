@@ -1,5 +1,6 @@
 package com.team01.steamanalyst.components
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -7,9 +8,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import com.team01.steamanalyst.R
 import com.team01.steamanalyst.navigation.Screen
 import com.team01.steamanalyst.ui.theme.*
 
@@ -40,6 +44,14 @@ fun SideNav(
             .padding(vertical = 10.dp, horizontal = 10.dp)
 
     ){
+        Image(
+            painter = painterResource(id= R.drawable.steam_logo),
+            contentDescription = "Steam Pulse logo",
+            modifier = Modifier
+                .size(58.dp)
+                .padding(bottom = 12.dp)
+                .align(Alignment.CenterHorizontally)
+        )
        // Loop through each nav item and draws a row for it
         items.forEach{(screen, label) ->
             val selected = screen == current

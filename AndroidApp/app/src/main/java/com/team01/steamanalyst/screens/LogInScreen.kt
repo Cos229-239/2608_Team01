@@ -13,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.team01.steamanalyst.apiKey
@@ -20,6 +21,9 @@ import com.team01.steamanalyst.service.SteamAccountService
 import com.team01.steamanalyst.steamAccount
 import com.team01.steamanalyst.ui.theme.*
 import com.team01.steamanalyst.vanityName
+import androidx.compose.foundation.Image
+import androidx.compose.runtime.Composable
+import com.team01.steamanalyst.R
 
 @Composable
 fun LogInScreen(onLoginSuccess: () -> Unit, onBack: () -> Unit = {}){
@@ -32,8 +36,27 @@ fun LogInScreen(onLoginSuccess: () -> Unit, onBack: () -> Unit = {}){
             onLoginSuccess()
         }
     }
-    Column(Modifier.fillMaxSize()) {
-        LoginSpace(query = query, onQueryChange = { query = it })
+    Column(
+    Modifier.fillMaxSize(),
+    horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Spacer(Modifier.height(100.dp))
+
+        Image(
+        painter = painterResource(id=R.drawable.steam_logo),
+            contentDescription = "Steam Pulse logo",
+            modifier = Modifier.size(150.dp)
+        )
+        Spacer(Modifier.height(8.dp))
+        Text(
+            text = "Steam Pulse",
+            style = MaterialTheme.typography.headlineSmall,
+            color = TextPrimary
+        )
+        Spacer(Modifier.height(5.dp))
+
+        LoginSpace(query = query, onQueryChange = {query = it})
+
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -83,7 +106,7 @@ fun LogInScreen(onLoginSuccess: () -> Unit, onBack: () -> Unit = {}){
                         Text(apiKey, style = MaterialTheme.typography.bodySmall, color = Purple40)
                     }
                 }
-                Spacer(Modifier.height(160.dp))
+                Spacer(Modifier.height(50.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                     Box( modifier = Modifier
                         .background(BgPanel)

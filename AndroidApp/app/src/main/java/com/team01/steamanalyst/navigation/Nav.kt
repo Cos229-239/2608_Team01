@@ -10,6 +10,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -19,10 +20,11 @@ import com.team01.steamanalyst.components.SideNav
 import com.team01.steamanalyst.components.TopSearchBar
 import com.team01.steamanalyst.screens.HomeScreen
 import com.team01.steamanalyst.screens.InvenScreen
-import com.team01.steamanalyst.screens.MarketScreen
+import com.team01.steamanalyst.screens.MarketTrendsScreen
 import com.team01.steamanalyst.screens.WatchScreen
 import com.team01.steamanalyst.screens.ProfileScreen
 import com.team01.steamanalyst.screens.*
+import com.team01.steamanalyst.navigation.MarketTrendsViewModel
 import com.team01.steamanalyst.ui.theme.BgRoot
 
 @Composable
@@ -70,7 +72,9 @@ fun SteamAnalystNav(){
         ){
             composable (Screen.Home.route){HomeScreen() }
             composable (Screen.Inventory.route){InvenScreen()}
-            composable (Screen.MarketTrends.route){MarketScreen()}
+            composable (Screen.MarketTrends.route){
+                MarketTrendsRoute(viewModel = viewModel())
+            }
             composable (Screen.Watchlists.route){WatchScreen()}
             composable (Screen.Profile.route){
                 ProfileScreen(onLoginClick = { navigate (Screen.LogIn)})

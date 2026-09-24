@@ -39,6 +39,8 @@ val PositiveGreen = Color(0xFF2ECC71)
 
 val NegativeRed = Color (0xFFE74C3C)
 
+val Fair = Color(0xFFB0B0B0)
+
 
 
 
