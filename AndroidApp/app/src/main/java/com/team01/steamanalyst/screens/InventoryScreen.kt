@@ -147,18 +147,41 @@ fun rShowItem(modifier: Modifier = Modifier, item : SteamInventoryItem, query :S
 
         if (showDetails){
             //Only shows when the picture is gone
-            Spacer(Modifier.height(10.dp))
-            Text("Asset ID: " + item.assetID, style = MaterialTheme.typography.labelSmall, color = settings.colorScheme.onSurface)
-            Spacer(Modifier.height(10.dp))
-            Text("ClassID: " + item.classID, style = MaterialTheme.typography.labelSmall, color = settings.colorScheme.onSurface)
+            if (settings.showAssetID) {
+                Spacer(Modifier.height(10.dp))
+                Text(
+                    "Asset ID: " + item.assetID,
+                    style = MaterialTheme.typography.labelSmall,
+                    color = settings.colorScheme.onSurface
+                )
+            }
+            if (settings.showClassID) {
+                Spacer(Modifier.height(10.dp))
+                Text(
+                    "ClassID: " + item.classID,
+                    style = MaterialTheme.typography.labelSmall,
+                    color = settings.colorScheme.onSurface
+                )
+            }
             Spacer(Modifier.height(10.dp))
             Text("MarketName: " + item.marketName, style = MaterialTheme.typography.labelSmall, color = settings.colorScheme.primary)
-            Spacer(Modifier.height(10.dp))
-            Text("Tradable: ${item.tradable}", style = MaterialTheme.typography.labelSmall, color = settings.colorScheme.primary)
-            Spacer(Modifier.height(10.dp))
-            Text("Marketable: ${item.marketable}", style = MaterialTheme.typography.labelSmall, color = settings.colorScheme.primary)
-            Spacer(Modifier.height(10.dp))
-
+            if (settings.showTradable) {
+                Spacer(Modifier.height(10.dp))
+                Text(
+                    "Tradable: ${item.tradable}",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = settings.colorScheme.onSurface
+                )
+            }
+            if (settings.showMarketable) {
+                Spacer(Modifier.height(10.dp))
+                Text(
+                    "Marketable: ${item.marketable}",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = settings.colorScheme.onSurface
+                )
+            }
+            Spacer(Modifier.height(4.dp))
         }
     }
     return true

@@ -28,7 +28,6 @@ fun WatchScreen(){
     var spaced :Boolean by remember { mutableStateOf(true) }
     var sortOrder :String by remember { mutableStateOf(settings.SortByWatchlists) }
     var ascending : Boolean by remember { mutableStateOf(settings.AscendingWatchlists) }
-    FakeProfile()
     Column(Modifier.fillMaxSize()
         .background(settings.colorScheme.background))
     {
