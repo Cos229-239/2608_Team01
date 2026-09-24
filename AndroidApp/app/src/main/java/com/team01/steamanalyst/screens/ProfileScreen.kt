@@ -33,7 +33,6 @@ import java.util.Locale
 @Composable
 @Preview
 fun ProfileScreen(onLoginClick: () -> Unit = {}){
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -64,18 +63,18 @@ fun ShowProf(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(12.dp))
-            .background(BgPanel)
+            .background(settings.colorScheme.surface)
             .padding(16.dp)
     ) {
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             if (steamAccount.loaded) {
                 Box(
                     modifier = Modifier
-                        .background(BgPanel)
+                        .background(settings.colorScheme.surface)
                         .width(90.dp)
                         .height(125.dp)
                         .clip(shape = RoundedCornerShape(6.dp))
-                        .background(BgPanel)
+                        .background(settings.colorScheme.surface)
                         .padding(vertical = 10.dp, horizontal = 8.dp)
                 )
                 {
@@ -90,14 +89,14 @@ fun ShowProf(modifier: Modifier = Modifier) {
                         .width(180.dp)
                         .height(75.dp)
                         .clip(shape = RoundedCornerShape(6.dp))
-                        .background(BgPanel)
+                        .background(settings.colorScheme.surface)
                         .padding(vertical = 10.dp, horizontal = 8.dp)
                 )
                 {
                     Text(
                         steamAccount.profile.personaName,
                         style = MaterialTheme.typography.bodyMedium,
-                        color = TextPrimary
+                        color = settings.colorScheme.onSurface
                     )
                 }
             }
@@ -108,11 +107,11 @@ fun ShowProf(modifier: Modifier = Modifier) {
                         .width(300.dp)
                         .height(125.dp)
                         .clip(shape = RoundedCornerShape(6.dp))
-                        .background(BgPanel)
+                        .background(settings.colorScheme.surface)
                         .padding(vertical = 10.dp, horizontal = 8.dp)
                 )
                 {
-                    Text("Log in to view profile", style = MaterialTheme.typography.bodyLarge, color = TextPrimary)
+                    Text("Log in to view profile", style = MaterialTheme.typography.bodyLarge, color = settings.colorScheme.onSurface)
                 }
             }
         }
@@ -124,8 +123,6 @@ fun ShowProf(modifier: Modifier = Modifier) {
 @Composable
 fun ShowProfDetails(modifier: Modifier = Modifier, onLoginClick: () -> Unit = {}) {
     var detailToShow :Int by remember { mutableIntStateOf(1) }
-    var priceToShow by remember { mutableIntStateOf(settings.priceToShowWatchlists) }
-    var showDetails :Boolean by remember { mutableStateOf(settings.showDetailsInventory) }
 
     Column(
         modifier = modifier
@@ -145,7 +142,6 @@ fun ShowProfDetails(modifier: Modifier = Modifier, onLoginClick: () -> Unit = {}
             {
                 Text("Personal info", style = MaterialTheme.typography.labelSmall, color = TextPrimary)
             }
-
             Box( modifier = Modifier
                 .width(90.dp)
                 .height(35.dp)
@@ -164,16 +160,6 @@ fun ShowProfDetails(modifier: Modifier = Modifier, onLoginClick: () -> Unit = {}
                 .clickable(onClick = {detailToShow = 3})
                 .padding(vertical = 10.dp, horizontal = 8.dp))
             {
-                Text("Settings", style = MaterialTheme.typography.labelSmall, color = TextPrimary)
-            }
-            Box( modifier = Modifier
-                .width(60.dp)
-                .height(35.dp)
-                .clip(shape = RoundedCornerShape(6.dp))
-                .background(BgInput)
-                .clickable(onClick = {detailToShow = 4})
-                .padding(vertical = 10.dp, horizontal = 8.dp))
-            {
                 Text("Bank", style = MaterialTheme.typography.labelSmall, color = TextPrimary)
             }
         }
@@ -184,36 +170,34 @@ fun ShowProfDetails(modifier: Modifier = Modifier, onLoginClick: () -> Unit = {}
         Column(
             modifier = modifier
                 .clip(RoundedCornerShape(12.dp))
-                .background(BgPanel)
+                .background(settings.colorScheme.surface)
                 .padding(16.dp)
         )
         {
             Text(
                 "Profile Information",
                 style = MaterialTheme.typography.bodyMedium,
-                color = TextPrimary
+                color = settings.colorScheme.onSurface
             )
             Text(
                 "change your personal information here",
                 style = MaterialTheme.typography.bodySmall,
-                color = TextSecondary
+                color = settings.colorScheme.onSurface
             )
             Text(
                 "---------------------------------------------------------------------",
                 style = MaterialTheme.typography.bodySmall,
-                color = TextSecondary
+                color = settings.colorScheme.onSurface
             )
             if (steamAccount.loaded) { //Show account info
                 Text(steamAccount.profile.steamID, style = MaterialTheme.typography.labelSmall, color = Purple40)
                 Spacer(Modifier.height(8.dp))
-                val commvis :Int = steamAccount.profile.communityVisibilityState
-                Text("Community Visibile: $commvis", style = MaterialTheme.typography.labelSmall, color = Purple40)
+                Text("Community Visibile: ${steamAccount.profile.communityVisibilityState}", style = MaterialTheme.typography.labelSmall, color = Purple40)
                 Spacer(Modifier.height(8.dp))
-                val perstate :Int = steamAccount.profile.personaState
-                Text("Persona State: $perstate", style = MaterialTheme.typography.labelSmall, color = Purple40)
+                Text("Persona State: ${steamAccount.profile.personaState}", style = MaterialTheme.typography.labelSmall, color = Purple40)
                 Spacer(Modifier.height(20.dp))
                 Box( modifier = Modifier //Sign out button
-                    .background(BgPanel)
+                    .background(settings.colorScheme.surface)
                     .width(120.dp)
                     .height(45.dp)
                     .clip(shape = RoundedCornerShape(6.dp))
@@ -221,21 +205,21 @@ fun ShowProfDetails(modifier: Modifier = Modifier, onLoginClick: () -> Unit = {}
                     .background(AccentBlue)
                     .padding(vertical = 10.dp, horizontal = 8.dp))
                 {
-                    Text("Sign Out", style = MaterialTheme.typography.bodyLarge)
+                    Text("Sign Out", style = MaterialTheme.typography.bodyLarge, color = settings.colorScheme.onBackground)
                 }
             }
             else { //Login button
                 Spacer(Modifier.height(16.dp))
                 Box( modifier = Modifier
-                    .background(BgPanel)
+                    .background(settings.colorScheme.surface)
                     .width(120.dp)
                     .height(45.dp)
                     .clip(shape = RoundedCornerShape(6.dp))
-                    .clickable(onClick = onLoginClick) //<- load fake profile for now - should send you to login screen
-                    .background(AccentBlue)
+                    .clickable(onClick = onLoginClick)
+                    .background(settings.colorScheme.primary)
                     .padding(vertical = 10.dp, horizontal = 8.dp))
                 {
-                    Text("Log In", style = MaterialTheme.typography.bodyLarge)
+                    Text("Log In", style = MaterialTheme.typography.bodyLarge, color = settings.colorScheme.onBackground)
                 }
             }
         }
@@ -244,135 +228,59 @@ fun ShowProfDetails(modifier: Modifier = Modifier, onLoginClick: () -> Unit = {}
         Column(
             modifier = modifier
                 .clip(RoundedCornerShape(12.dp))
-                .background(BgPanel)
+                .background(settings.colorScheme.surface)
                 .padding(16.dp)
         )
         {
             Text(
                 "Notifications",
                 style = MaterialTheme.typography.bodyMedium,
-                color = TextPrimary
+                color = settings.colorScheme.onBackground
             )
             Text(
                 "see and manage what's been going on",
                 style = MaterialTheme.typography.bodySmall,
-                color = TextSecondary
+                color = settings.colorScheme.onSurface
             )
             Text(
                 "---------------------------------------------------------------------",
                 style = MaterialTheme.typography.bodySmall,
-                color = TextSecondary
+                color = settings.colorScheme.onSurface
             )
             Text(
                 "No Notifications yet",
                 style = MaterialTheme.typography.bodySmall,
-                color = TextSecondary
+                color = settings.colorScheme.onSurface
             )
         }
     }
-    else if (detailToShow == 3){ //Settings - Already have ideas for this
+    else if (detailToShow == 3){ //Bank info - Not sure if this will stay in final
         Column(
             modifier = modifier
                 .clip(RoundedCornerShape(12.dp))
-                .background(BgPanel)
-                .padding(16.dp)
-        )
-        {
-            Text(
-                "Settings",
-                style = MaterialTheme.typography.bodyMedium,
-                color = TextPrimary
-            )
-            Text(
-                "change certain UI elements here...",
-                style = MaterialTheme.typography.bodySmall,
-                color = TextSecondary
-            )
-            Text(
-                "---------------------------------------------------------------------",
-                style = MaterialTheme.typography.bodySmall,
-                color = TextSecondary
-            )
-                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                    Box( modifier = Modifier
-                        .background(BgPanel)
-                        .width(130.dp)
-                        .height(25.dp)
-                        .clip(shape = RoundedCornerShape(6.dp))
-                        .clickable(onClick = {
-                            priceToShow = Rswitch(priceToShow)
-                            settings.priceToShowWatchlists = priceToShow
-                        })
-                        .background(AccentBlue)
-                        .padding(vertical = 5.dp, horizontal = 7.dp))
-                    {
-                        Text("Price in Watchlist", style = MaterialTheme.typography.bodySmall)
-                    }
-                    Box( modifier = Modifier
-                        .background(BgPanel)
-                        .width(80.dp)
-                        .height(25.dp)
-                        .clip(shape = RoundedCornerShape(6.dp))
-                        .background(BgPanel)
-                        .padding(vertical = 5.dp, horizontal = 7.dp))
-                    {
-                        val showing = when(priceToShow){
-                            2 -> "Median"
-                            3 -> "Minimum"
-                            else -> "Suggested"
-                        }
-                        Text(showing, style = MaterialTheme.typography.bodySmall, color = Purple40)
-                    }
-                }
-            Spacer(Modifier.height(8.dp))
-                    Box( modifier = Modifier
-                        .background(BgPanel)
-                        .width(225.dp)
-                        .height(25.dp)
-                        .clip(shape = RoundedCornerShape(6.dp))
-                        .clickable(onClick = {
-                            showDetails = !showDetails
-                            settings.showDetailsInventory = showDetails
-                        })
-                        .background(AccentBlue)
-                        .padding(vertical = 5.dp, horizontal = 7.dp))
-                    {
-                        val showing = when(showDetails){
-                            true -> "details"
-                            else -> "picture"
-                        }
-                        Text("Show $showing in inventory by default", style = MaterialTheme.typography.bodySmall)
-                    }
-
-        }
-    }
-    else if (detailToShow == 4){ //Bank info - Not sure if this will stay in final
-        Column(
-            modifier = modifier
-                .clip(RoundedCornerShape(12.dp))
-                .background(BgPanel)
+                .background(settings.colorScheme.surface)
                 .padding(16.dp)
         )
         {
             Text(
                 "Banks",
                 style = MaterialTheme.typography.bodyMedium,
-                color = TextPrimary
+                color = settings.colorScheme.onBackground
             )
             Text(
                 "manage your bank accounts and view transactions",
                 style = MaterialTheme.typography.bodySmall,
-                color = TextSecondary
+                color = settings.colorScheme.onSurface
             )
             Text(
                 "-----------------------------------------------------------------------------------------",
                 style = MaterialTheme.typography.bodySmall,
-                color = TextSecondary
+                color = settings.colorScheme.onSurface
             )
             Text(
                 "Bank stuff will be made soon",
                 style = MaterialTheme.typography.bodySmall,
-                color = TextSecondary
+                color = settings.colorScheme.onSurface
             )
         }
     }
@@ -401,11 +309,6 @@ fun FakeProfile(){
     )
     val daVal : InventoryValuation = InventoryValuation(lisVal, 0, 1, 1.01)
     steamAccount = SteamAccountData(prof, inve, daVal, true)
-}
-private fun Rswitch(swap :Int) :Int {
-    if (swap == 1) return 2
-    if (swap == 2) return 3
-    return 1
 }
 fun SignOut(){
     steamAccount = SteamAccountData()

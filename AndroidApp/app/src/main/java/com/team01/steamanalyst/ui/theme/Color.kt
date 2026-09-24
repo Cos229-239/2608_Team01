@@ -14,14 +14,18 @@ val Pink40 = Color(0xFF7D5260)
 
 
 val TextPrimary = Color(0xFFF2F3F5)
+val TextPrimaryL = Color(0xFF111111)
 
 val TextSecondary = Color(0xFF9AA2B1)
+val TextSecondaryL = Color(0xFF111111)
 
 val TextMuted = Color(0xFF6B7280)
 
 val BgPanel = Color(0xFF12151C)
+val BgPanelL = Color(0xFF999999)
 
 val BgRoot = Color(0xFF000000)
+val BgRootL = Color(0xFFFFFFFF)
 
 val BgInput = Color(0xFF1E232C)
 

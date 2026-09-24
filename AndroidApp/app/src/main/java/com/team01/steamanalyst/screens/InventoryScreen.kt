@@ -28,7 +28,6 @@ fun InvenScreen() {
     var spaced :Boolean by remember { mutableStateOf(settings.showDetailsInventory) }
     var sortOrder :String by remember { mutableStateOf(settings.SortByInventory) }
     var ascending : Boolean by remember { mutableStateOf(settings.AscendingInventory) }
-    FakeProfile()
     Column(Modifier.fillMaxSize()) {
         TopSearchBar(query = query, onQueryChange = { query = it })
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
