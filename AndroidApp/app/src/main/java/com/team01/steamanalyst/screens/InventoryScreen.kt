@@ -28,9 +28,44 @@ fun InvenScreen() {
     var spaced :Boolean by remember { mutableStateOf(settings.showDetailsInventory) }
     var sortOrder :String by remember { mutableStateOf(settings.SortByInventory) }
     var ascending : Boolean by remember { mutableStateOf(settings.AscendingInventory) }
+    FakeProfile()
     Column(Modifier.fillMaxSize()) {
         TopSearchBar(query = query, onQueryChange = { query = it })
-
+            Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                Spacer(Modifier.width(3.dp))
+                Box(
+                    modifier = Modifier
+                        .width(80.dp)
+                        .height((40.dp))
+                        .padding(vertical = 3.dp)
+                        .clip(shape = RoundedCornerShape(6.dp))
+                        .background(Purple40)
+                        .padding(vertical = 10.dp, horizontal = 8.dp)
+                        .clickable(onClick = {
+                            ascending = !ascending
+                            settings.AscendingInventory = ascending
+                        })
+                ) {
+                    if (ascending) Text("Ascending", style = MaterialTheme.typography.labelSmall)
+                    else Text("Descending", style = MaterialTheme.typography.labelSmall)
+                }
+                Box(
+                    modifier = Modifier
+                        .width(160.dp)
+                        .height((40.dp))
+                        .padding(vertical = 3.dp)
+                        .clip(shape = RoundedCornerShape(6.dp))
+                        .background(Purple40)
+                        .padding(vertical = 10.dp, horizontal = 8.dp)
+                        .clickable(onClick = {
+                            sortOrder = switchSort(sortOrder)
+                            settings.SortByInventory = sortOrder
+                        })
+                ) {
+                    Text("Sort Type: $sortOrder", style = MaterialTheme.typography.labelSmall)
+                }
+            }
+            Spacer(Modifier.height(10.dp))
         LazyColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -38,42 +73,6 @@ fun InvenScreen() {
             verticalArrangement = Arrangement.spacedBy(0.dp),
             contentPadding = PaddingValues(bottom = 24.dp)
         ) {
-            item{
-                Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                    Box(
-                        modifier = Modifier
-                            .width(80.dp)
-                            .height((40.dp))
-                            .padding(vertical = 3.dp)
-                            .clip(shape = RoundedCornerShape(6.dp))
-                            .background(Purple40)
-                            .padding(vertical = 10.dp, horizontal = 8.dp)
-                            .clickable(onClick = {
-                                ascending = !ascending
-                                settings.AscendingInventory = ascending
-                            })
-                    ) {
-                        if (ascending) Text("Ascending", style = MaterialTheme.typography.labelSmall)
-                        else Text("Descending", style = MaterialTheme.typography.labelSmall)
-                    }
-                    Box(
-                        modifier = Modifier
-                            .width(160.dp)
-                            .height((40.dp))
-                            .padding(vertical = 3.dp)
-                            .clip(shape = RoundedCornerShape(6.dp))
-                            .background(Purple40)
-                            .padding(vertical = 10.dp, horizontal = 8.dp)
-                            .clickable(onClick = {
-                                sortOrder = switchSort(sortOrder)
-                                settings.SortByInventory = sortOrder
-                            })
-                    ) {
-                        Text("Sort Type: $sortOrder", style = MaterialTheme.typography.labelSmall)
-                    }
-                }
-                Spacer(Modifier.height(10.dp))
-                }
 
             var listItems :List<SteamInventoryItem>
             if (ascending) {
