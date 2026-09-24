@@ -9,14 +9,19 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
+import com.team01.steamanalyst.ui.theme.DarkOrange
 
 val DarkColorScheme = darkColorScheme(
     background = BgRoot,
     surface = BgPanel,
+    surfaceVariant = BgInput,
+    surfaceDim = TextMuted,
+    primaryContainer = BgCard,
     primary = AccentBlue,
     secondary = AccentPurple,
     onBackground = TextPrimary,
     onSurface = TextSecondary,
+    tertiary = PositiveGreen,
     error = NegativeRed
 
 )
@@ -24,11 +29,15 @@ val DarkColorScheme = darkColorScheme(
 val LightColorScheme = lightColorScheme(
     background = BgRootL,
     surface = BgPanelL,
+    surfaceVariant = BgInputL,
+    surfaceDim = TextMutedL,
+    primaryContainer = BgCardL,
     primary = Purple40,
     secondary = PurpleGrey40,
     onBackground = TextPrimaryL,
     onSurface = TextSecondaryL,
-    tertiary = Pink40
+    tertiary = DarkOrange,
+    error = NegativeRed
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),

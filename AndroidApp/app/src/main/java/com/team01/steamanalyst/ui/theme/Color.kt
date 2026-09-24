@@ -20,6 +20,7 @@ val TextSecondary = Color(0xFF9AA2B1)
 val TextSecondaryL = Color(0xFF111111)
 
 val TextMuted = Color(0xFF6B7280)
+val TextMutedL = Color(0xBB000000)
 
 val BgPanel = Color(0xFF12151C)
 val BgPanelL = Color(0xFF999999)
@@ -28,8 +29,10 @@ val BgRoot = Color(0xFF000000)
 val BgRootL = Color(0xFFFFFFFF)
 
 val BgInput = Color(0xFF1E232C)
+val BgInputL = Color(0x66999999)
 
 val BgCard = Color(0xFF1B2029)
+val BgCardL = Color(0xFF484848)
 
 val BorderSubtle = Color(0xFF262B36)
 
@@ -40,6 +43,8 @@ val AccentBlue = Color(0xFF3B6FE0)
 val AccentPurple = Color(0xFF6C5CE7)
 
 val PositiveGreen = Color(0xFF2ECC71)
+
+val DarkOrange = Color(0xFFAA4400)
 
 val NegativeRed = Color (0xFFE74C3C)
 

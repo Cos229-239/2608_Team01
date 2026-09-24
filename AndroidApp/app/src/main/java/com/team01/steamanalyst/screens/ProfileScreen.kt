@@ -37,6 +37,7 @@ fun ProfileScreen(onLoginClick: () -> Unit = {}){
         modifier = Modifier
             .fillMaxSize()
             .statusBarsPadding()
+            .background(settings.colorScheme.background)
     ){
 
         LazyColumn(
@@ -47,6 +48,7 @@ fun ProfileScreen(onLoginClick: () -> Unit = {}){
             contentPadding = PaddingValues(bottom = 24.dp)
         ){
             item {
+                Spacer(Modifier.height(8.dp))
                 Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                     ShowProf(modifier = Modifier.weight(1.4f))
                 }

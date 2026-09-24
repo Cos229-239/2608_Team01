@@ -28,7 +28,10 @@ fun WatchScreen(){
     var spaced :Boolean by remember { mutableStateOf(true) }
     var sortOrder :String by remember { mutableStateOf(settings.SortByWatchlists) }
     var ascending : Boolean by remember { mutableStateOf(settings.AscendingWatchlists) }
-    Column(Modifier.fillMaxSize()){
+    FakeProfile()
+    Column(Modifier.fillMaxSize()
+        .background(settings.colorScheme.background))
+    {
         TopSearchBar(query = query, onQueryChange = {query = it})
         Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             Spacer(Modifier.width(3.dp))
@@ -38,15 +41,15 @@ fun WatchScreen(){
                     .height((40.dp))
                     .padding(vertical = 3.dp)
                     .clip(shape = RoundedCornerShape(6.dp))
-                    .background(Purple40)
+                    .background(settings.colorScheme.primary)
                     .padding(vertical = 10.dp, horizontal = 8.dp)
                     .clickable(onClick = {
                         ascending = !ascending
                         settings.AscendingWatchlists = ascending
                     })
             ) {
-                if (ascending) Text("Ascending", style = MaterialTheme.typography.labelSmall)
-                else Text("Descending", style = MaterialTheme.typography.labelSmall)
+                if (ascending) Text("Ascending", style = MaterialTheme.typography.labelSmall, color = settings.colorScheme.onSurface)
+                else Text("Descending", style = MaterialTheme.typography.labelSmall, color = settings.colorScheme.onSurface)
             }
             Box(
                 modifier = Modifier
@@ -54,14 +57,14 @@ fun WatchScreen(){
                     .height((40.dp))
                     .padding(vertical = 3.dp)
                     .clip(shape = RoundedCornerShape(6.dp))
-                    .background(Purple40)
+                    .background(settings.colorScheme.primary)
                     .padding(vertical = 10.dp, horizontal = 8.dp)
                     .clickable(onClick = {
                         sortOrder = switchSort(sortOrder)
                         settings.SortByWatchlists = sortOrder
                     })
             ) {
-                Text("Sort Type: $sortOrder", style = MaterialTheme.typography.labelSmall)
+                Text("Sort Type: $sortOrder", style = MaterialTheme.typography.labelSmall, color = settings.colorScheme.onSurface)
             }
         }
         Spacer(Modifier.height(10.dp))
@@ -115,7 +118,7 @@ fun rShowItem(modifier: Modifier = Modifier, item : ValuedInventoryItem, query :
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(12.dp))
-            .background(BgPanel)
+            .background(settings.colorScheme.surface)
             .padding(4.dp)
     )
     {
@@ -127,7 +130,7 @@ fun rShowItem(modifier: Modifier = Modifier, item : ValuedInventoryItem, query :
                     .width(90.dp)
                     .height(75.dp)
                     .clip(shape = RoundedCornerShape(6.dp))
-                    .background(BgPanel)
+                    .background(settings.colorScheme.surface)
                     .padding(vertical = 10.dp, horizontal = 8.dp)
             )
             {
@@ -139,7 +142,7 @@ fun rShowItem(modifier: Modifier = Modifier, item : ValuedInventoryItem, query :
                 )
             }
 
-            Text(item.steamItem.name + "\n" + item.steamItem.marketName, style = MaterialTheme.typography.labelSmall, color = Purple40)
+            Text(item.steamItem.name + "\n" + item.steamItem.marketName, style = MaterialTheme.typography.labelSmall, color = settings.colorScheme.primary)
             Spacer(Modifier.width(5.dp))
 
             Box(
@@ -147,7 +150,7 @@ fun rShowItem(modifier: Modifier = Modifier, item : ValuedInventoryItem, query :
                     .width(100.dp)
                     .height(75.dp)
                     .clip(shape = RoundedCornerShape(6.dp))
-                    .background(BgPanel)
+                    .background(settings.colorScheme.surface)
                     .padding(vertical = 30.dp)
                     .clickable(onClick = {priceToShow = Rswitch(priceToShow)})
             )
@@ -166,12 +169,9 @@ fun rShowItem(modifier: Modifier = Modifier, item : ValuedInventoryItem, query :
                 Text(
                     typePrice + "$price",
                     style = MaterialTheme.typography.labelSmall,
-                    color = PositiveGreen
+                    color = settings.colorScheme.tertiary
                 )
             }
-
-            /*Spacer(Modifier.width(10.dp))
-            Text("Seed", style = MaterialTheme.typography.labelSmall, color = Purple40)*/
         }
 
     }

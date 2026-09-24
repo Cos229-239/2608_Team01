@@ -7,6 +7,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.team01.steamanalyst.settings
 import com.team01.steamanalyst.ui.theme.*
 
 @Composable
@@ -28,7 +29,7 @@ fun TopSearchBar(
             modifier = Modifier
                 .weight(1f)
                 .height(40.dp),
-            color = BgInput,
+            color = settings.colorScheme.surfaceVariant,
             shape = RoundedCornerShape(8.dp)
         ){
             //Inner row to hold the text field, padded inside the surface
@@ -52,10 +53,10 @@ private fun BasicTextFieldPlaceholder(query: String, onQueryChange: (String) -> 
        value = query,
        onValueChange = onQueryChange,
        singleLine = true,
-       textStyle = MaterialTheme.typography.bodyMedium.copy(color = TextPrimary),
+       textStyle = MaterialTheme.typography.bodyMedium.copy(color = settings.colorScheme.surfaceDim),
        decorationBox = {inner ->
            if(query.isEmpty()){
-               Text("Search skins, knives, gloves ...", style = MaterialTheme.typography.bodyMedium, color = TextMuted)
+               Text("Search skins, knives, gloves ...", style = MaterialTheme.typography.bodyMedium, color = settings.colorScheme.surfaceDim)
 
            }
            inner()

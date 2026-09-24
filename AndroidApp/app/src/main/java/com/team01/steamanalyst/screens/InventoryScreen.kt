@@ -28,7 +28,9 @@ fun InvenScreen() {
     var spaced :Boolean by remember { mutableStateOf(settings.showDetailsInventory) }
     var sortOrder :String by remember { mutableStateOf(settings.SortByInventory) }
     var ascending : Boolean by remember { mutableStateOf(settings.AscendingInventory) }
-    Column(Modifier.fillMaxSize()) {
+    Column(Modifier
+        .fillMaxSize()
+        .background(settings.colorScheme.background)) {
         TopSearchBar(query = query, onQueryChange = { query = it })
             Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                 Spacer(Modifier.width(3.dp))
@@ -38,15 +40,15 @@ fun InvenScreen() {
                         .height((40.dp))
                         .padding(vertical = 3.dp)
                         .clip(shape = RoundedCornerShape(6.dp))
-                        .background(Purple40)
+                        .background(settings.colorScheme.primary)
                         .padding(vertical = 10.dp, horizontal = 8.dp)
                         .clickable(onClick = {
                             ascending = !ascending
                             settings.AscendingInventory = ascending
                         })
                 ) {
-                    if (ascending) Text("Ascending", style = MaterialTheme.typography.labelSmall)
-                    else Text("Descending", style = MaterialTheme.typography.labelSmall)
+                    if (ascending) Text("Ascending", style = MaterialTheme.typography.labelSmall, color = settings.colorScheme.onSurface)
+                    else Text("Descending", style = MaterialTheme.typography.labelSmall, color = settings.colorScheme.onSurface)
                 }
                 Box(
                     modifier = Modifier
@@ -54,14 +56,14 @@ fun InvenScreen() {
                         .height((40.dp))
                         .padding(vertical = 3.dp)
                         .clip(shape = RoundedCornerShape(6.dp))
-                        .background(Purple40)
+                        .background(settings.colorScheme.primary)
                         .padding(vertical = 10.dp, horizontal = 8.dp)
                         .clickable(onClick = {
                             sortOrder = switchSort(sortOrder)
                             settings.SortByInventory = sortOrder
                         })
                 ) {
-                    Text("Sort Type: $sortOrder", style = MaterialTheme.typography.labelSmall)
+                    Text("Sort Type: $sortOrder", style = MaterialTheme.typography.labelSmall, color = settings.colorScheme.onSurface)
                 }
             }
             Spacer(Modifier.height(10.dp))
@@ -115,9 +117,9 @@ fun rShowItem(modifier: Modifier = Modifier, item : SteamInventoryItem, query :S
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(12.dp))
-            .background(BgPanel)
+            .background(settings.colorScheme.surface)
             .padding(16.dp)
-            .clickable(onClick = {showDetails = !showDetails})
+            .clickable(onClick = { showDetails = !showDetails })
     ) {
 
         if (!showDetails) {
@@ -127,7 +129,7 @@ fun rShowItem(modifier: Modifier = Modifier, item : SteamInventoryItem, query :S
                     .height((130.dp))
                     .padding(vertical = 3.dp)
                     .clip(shape = RoundedCornerShape(6.dp))
-                    .background(BgPanel)
+                    .background(settings.colorScheme.surface)
                     .padding(vertical = 10.dp, horizontal = 8.dp)
             ) {
                 AsyncImage(
@@ -138,25 +140,23 @@ fun rShowItem(modifier: Modifier = Modifier, item : SteamInventoryItem, query :S
             }
         }
         Spacer(Modifier.height(5.dp))
-        Text(item.name, style = MaterialTheme.typography.labelSmall, color = Purple40)
+        Text(item.name, style = MaterialTheme.typography.labelSmall, color = settings.colorScheme.primary)
         Spacer(Modifier.height(5.dp))
         val amount = item.amount
-        Text("Amount $amount", style = MaterialTheme.typography.labelSmall, color = Purple40)
+        Text("Amount $amount", style = MaterialTheme.typography.labelSmall, color = settings.colorScheme.primary)
 
         if (showDetails){
             //Only shows when the picture is gone
             Spacer(Modifier.height(10.dp))
-            Text("Asset ID: " + item.assetID, style = MaterialTheme.typography.labelSmall, color = Pink40)
+            Text("Asset ID: " + item.assetID, style = MaterialTheme.typography.labelSmall, color = settings.colorScheme.onSurface)
             Spacer(Modifier.height(10.dp))
-            Text("ClassID: " + item.classID, style = MaterialTheme.typography.labelSmall, color = Pink40)
+            Text("ClassID: " + item.classID, style = MaterialTheme.typography.labelSmall, color = settings.colorScheme.onSurface)
             Spacer(Modifier.height(10.dp))
-            Text("MarketName: " + item.marketName, style = MaterialTheme.typography.labelSmall, color = Purple40)
+            Text("MarketName: " + item.marketName, style = MaterialTheme.typography.labelSmall, color = settings.colorScheme.primary)
             Spacer(Modifier.height(10.dp))
-            val tradable = item.tradable
-            Text("Tradable: $tradable", style = MaterialTheme.typography.labelSmall, color = Purple40)
+            Text("Tradable: ${item.tradable}", style = MaterialTheme.typography.labelSmall, color = settings.colorScheme.primary)
             Spacer(Modifier.height(10.dp))
-            val marketable = item.marketable
-            Text("Marketable: $marketable", style = MaterialTheme.typography.labelSmall, color = Purple40)
+            Text("Marketable: ${item.marketable}", style = MaterialTheme.typography.labelSmall, color = settings.colorScheme.primary)
             Spacer(Modifier.height(10.dp))
 
         }
