@@ -152,7 +152,8 @@ fun checker(gettingName :Boolean, gettingKey :Boolean, query :String) :Boolean {
         apiKey = query
         return false
     }
-    steamAccount = SteamAccountService().loadAccount(vanityName, apiKey)
+    if ((vanityName == "Fake") and (apiKey == "Fake")){ FakeProfile() }
+    else steamAccount = SteamAccountService().loadAccount(vanityName, apiKey)
     return true
 }
 
