@@ -36,8 +36,6 @@ fun WatchScreen(){
     var addingList by remember { mutableStateOf(false) }
     var newListName by remember { mutableStateOf("") }
     var addingFromInventory by remember { mutableStateOf(false) }
-    var sortOrder: String by remember { mutableStateOf(settings.sortByWatchlists) }
-    var ascending: Boolean by remember { mutableStateOf(settings.AscendingWatchlists) }
 
     val activeList = WatchlistManager.getActiveWatchlist()
 
@@ -63,52 +61,6 @@ fun WatchScreen(){
 
             )
         }
-        Row(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-            Spacer(Modifier.width(3.dp))
-            Box(
-                modifier = Modifier
-                    .width(80.dp)
-                    .height(40.dp)
-                    .padding(vertical = 3.dp)
-                    .clip(shape = RoundedCornerShape(6.dp))
-                    .background(Purple40)
-                    .padding(vertical = 10.dp, horizontal = 8.dp)
-                    .clickable(onClick = {
-                        ascending = !ascending
-                        settings.AscendingWatchlists = ascending
-                    })
-            ) {
-                if(ascending)
-                    Text(
-                        "Ascending",
-                        style = MaterialTheme.typography.labelSmall
-                    )
-                else
-                    Text(
-                        "Descending",
-                        style = MaterialTheme.typography.labelSmall
-                    )
-            }
-            Box(
-                modifier = Modifier
-                    .width(160.dp)
-                    .height(40.dp)
-                    .padding(vertical = 3.dp)
-                    .clip(shape = RoundedCornerShape(6.dp))
-                    .background(Purple40)
-                    .padding(vertical = 10.dp, horizontal = 8.dp)
-                    .clickable(onClick = {
-                        sortOrder = switchWatchlistSort(sortOrder)
-                        settings.SortByWatchlists = sortOrders
-                    })
-            ) {
-                Text(
-                    "Sort Type: $sortOrder",
-                    style = MaterialTheme.typography.labelSmall
-                )
-            }
-        }
-        Spacer(Modifier.height(8.dp))
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -169,28 +121,10 @@ fun WatchScreen(){
                     CatalogRepository.currentCatalog.find{it.marketHashName == hash}
                 }
 
-                val sortedWatchItems = if(ascending){
-                    when(sortOrder){
-                        "Name" -> watchedItems.sortedBy {it.marketHashName}
-                        "Price(Sugg)" -> watchedItems.sortedBy { it.suggestedPrice }
-                        "Price(Med)" -> watchedItems.sortedBy { it.medianPrice }
-                        "Price(Min)" -> watchedItems.sortedBy { it.minPrice }
-                        else -> watchedItems
-                    }
-                }else{
-                    when(sortOrder){
-                        "Name" -> watchedItems.sortedByDescending {it.marketHashName}
-                        "Price(Sugg)" -> watchedItems.sortedByDescending { it.suggestedPrice }
-                        "Price(Med)" -> watchedItems.sortedByDescending { it.medianPrice }
-                        "Price(Min)" -> watchedItems.sortedByDescending { it.minPrice }
-                        else -> watchedItems
-                    }
-                }
-
-                if(sortedWatchItems.isEmpty()){
+                if(watchedItems.isEmpty()){
                     item{EmptyWatchlistCard()}
                 }else{
-                    items(sortedWatchItems, key = {it.marketHashName}) {skin ->
+                    items(watchedItems, key = {it.marketHashName}) {skin ->
                         if(query.isBlank() || skin.marketHashName.contains(query, true)){
                             WatchedItemRow(skin) {
                                 WatchlistManager.removeItem(activeList.id, skin.marketHashName)
@@ -404,12 +338,4 @@ private fun Rswitch(swap :Int) :Int {
     if (swap == 1) return 2
     if (swap == 2) return 3
     return 1
-}
-
-private fun switchWatchlistSort(sortOrder: String): String{
-    if(sortOrder  == "NoSort") return "Name"
-    if(sortOrder  == "Name") return "Price(Sugg)"
-    if(sortOrder  == "Price(Sugg") return "Price(Med)"
-    if(sortOrder  == "Price(Med)") return "Price(Min)"
-    return "NoSort"
 }
