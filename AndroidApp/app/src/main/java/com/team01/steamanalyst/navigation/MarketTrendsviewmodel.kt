@@ -11,10 +11,12 @@ import com.team01.steamanalyst.data.MarketplaceRanking
 import com.team01.steamanalyst.data.SkinPortItem
 import com.team01.steamanalyst.screens.MarketTrendsScreen
 import com.team01.steamanalyst.service.CS2CapService
+import com.team01.steamanalyst.service.SkinportCatalogCache
 import com.team01.steamanalyst.service.SkinportService
 import com.team01.steamanalyst.valuation.MarketSummaryBuilder
 import com.team01.steamanalyst.valuation.MarketplaceAnalyzer
 import com.team01.steamanalyst.valuation.MarketplaceRankingAnalyzer
+import com.team01.steamanalyst.valuation.WatchlistManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -30,7 +32,8 @@ data class MarketTrendsUiState(
     val summary: MarketSummary? = null,
     val rankings: List<MarketplaceRanking> = emptyList(),
     val isLoading: Boolean = false,
-    val errorMessage: String? = null
+    val errorMessage: String? = null,
+    val randomList: List<SkinPortItem> = emptyList()
 
 )
 
@@ -54,13 +57,21 @@ class MarketTrendsViewModel(
     private fun loadCatalog(){
         viewModelScope.launch{
             try{
-                catalog = withContext(Dispatchers.IO){skinportService.fetchMarketData()}
+                catalog = SkinportCatalogCache.get(skinportService)
+                _uiState.update { it.copy(randomList = catalog.shuffled().take(20)) }
             }catch(e: Exception){
                 _uiState.update{
                     it.copy(errorMessage = "Couldn't load item list: ${e.message}")
                 }
             }
         }
+    }
+    fun shuffleRandomList(){
+        _uiState.update { it.copy(randomList = catalog.shuffled().take(20)) }
+    }
+    fun addToActiveWatchlist(item: SkinPortItem){
+        val active = WatchlistManager.getActiveWatchlist()
+        WatchlistManager.addItem(active.id, item.marketHashName)
     }
 
     fun onQueryChange(query: String){
@@ -138,11 +149,15 @@ fun MarketTrendsRoute(viewModel: MarketTrendsViewModel){
 
     MarketTrendsScreen(
         searchResult = uiState.searchResults,
+        randomList = uiState.randomList,
         selectedSkin = uiState.selectedSkin,
         summary = uiState.summary,
         rankings = uiState.rankings,
         isLoading = uiState.isLoading,
         onQueryChange = viewModel::onQueryChange,
-        onSkinSelected = viewModel::onSkinSelected
+        onSkinSelected = viewModel::onSkinSelected,
+        onBack = viewModel::clearSelection,
+        onShuffle = viewModel::shuffleRandomList,
+        onAddToWatchlist = viewModel::addToActiveWatchlist
     )
 }

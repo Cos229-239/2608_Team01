@@ -6,7 +6,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowDownward
 import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material3.*
@@ -23,18 +25,23 @@ import com.team01.steamanalyst.data.MarketSummary
 import com.team01.steamanalyst.data.MarketplaceRanking
 import com.team01.steamanalyst.data.SkinPortItem
 import com.team01.steamanalyst.ui.theme.*
+import java.nio.file.WatchEvent
 import kotlin.math.roundToInt
 
 
 @Composable
 fun MarketTrendsScreen(
     searchResult: List<SkinPortItem>,
+    randomList: List<SkinPortItem>,
     selectedSkin: SkinPortItem?,
     summary: MarketSummary?,
     rankings: List<MarketplaceRanking>,
     isLoading: Boolean,
     onQueryChange: (String)-> Unit,
-    onSkinSelected:(SkinPortItem) -> Unit
+    onSkinSelected:(SkinPortItem) -> Unit,
+    onBack: () -> Unit,
+    onShuffle: () -> Unit,
+    onAddToWatchlist: (SkinPortItem) -> Unit
 ){
 var query by remember { mutableStateOf("") }
 
@@ -56,12 +63,42 @@ var query by remember { mutableStateOf("") }
         ) {
 
             if(selectedSkin == null){
-                items(searchResult){result->
-                    SkinResultRow(result = result, onClick = {onSkinSelected(result)})
+                if(query.isBlank()){
+                   item{
+                       Row(
+                           Modifier
+                               .fillMaxWidth(),
+                           horizontalArrangement = Arrangement.SpaceBetween
+                       ) {
+                           Text(
+                               "Random Picks",
+                               style = MaterialTheme.typography.titleSmall,
+                               color = TextPrimary
+                           )
+                           Text(
+                               "Shuffle",
+                               style = MaterialTheme.typography.labelSmall,
+                               color = AccentBlue,
+                               modifier = Modifier.clickable{onShuffle()}
+                           )
+                       }
+                   }
+                    items(randomList, key = {it.marketHashName}) {result ->
+                        SkinResultRow(result = result, onClick = {onSkinSelected(result)}, onAddToWatchlist = {onAddToWatchlist(result)})
+                    }
+                }else{
+                    items(searchResult, key = {it.marketHashName}) {result->
+                        SkinResultRow(result = result, onClick = { onSkinSelected(result) }, onAddToWatchlist = {onAddToWatchlist(result)})
+                    }
                 }
                 return@LazyColumn
             }
-            item{SelectedSkinHeader(skin = selectedSkin, dealRating = summary?.dealRating)}
+            item{
+                SelectedSkinHeader(
+                    skin = selectedSkin,
+                    dealRating = summary?.dealRating,
+                    onBack = onBack
+                )}
 
             when{
                 isLoading -> item{LoadingCard()}
@@ -85,7 +122,7 @@ var query by remember { mutableStateOf("") }
 }
 
 @Composable
-private fun SkinResultRow(result: SkinPortItem, onClick: () -> Unit){
+private fun SkinResultRow(result: SkinPortItem, onClick: () -> Unit, onAddToWatchlist: ()-> Unit){
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -97,11 +134,25 @@ private fun SkinResultRow(result: SkinPortItem, onClick: () -> Unit){
         horizontalArrangement = Arrangement.spacedBy(12.dp)
     ){
         Text(result.marketHashName, style = MaterialTheme.typography.bodyMedium)
+        Box(
+            modifier = Modifier
+                .clip(RoundedCornerShape(8.dp))
+                .background(AccentBlue)
+                .clickable{onAddToWatchlist()}
+                .padding(horizontal = 12.dp, vertical = 6.dp)
+        ) {
+            Text(
+                "Add to Watchlist",
+                style = MaterialTheme.typography.labelSmall,
+                color = TextPrimary,
+                fontWeight = FontWeight.Medium
+            )
+        }
     }
     HorizontalDivider(Modifier, DividerDefaults.Thickness, DividerDefaults.color)
 }
 @Composable
-private fun SelectedSkinHeader(skin: SkinPortItem, dealRating: DealRating?){
+private fun SelectedSkinHeader(skin: SkinPortItem, dealRating: DealRating?, onBack: () -> Unit){
     Row(
         modifier = Modifier
         .fillMaxWidth()
@@ -111,6 +162,13 @@ private fun SelectedSkinHeader(skin: SkinPortItem, dealRating: DealRating?){
     verticalAlignment = Alignment.CenterVertically,
     horizontalArrangement = Arrangement.spacedBy(12.dp)
     ) {
+        IconButton(onClick = onBack) {
+            Icon(
+                Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = "Back to search",
+                tint = TextSecondary
+            )
+        }
         Text(
             skin.marketHashName,
             style = MaterialTheme.typography.bodyMedium,
