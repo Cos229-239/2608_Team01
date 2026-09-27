@@ -333,7 +333,6 @@ private fun InventoryAddRow(item: SteamInventoryItem, onAdd: () -> Unit){
     }
 }
 
-
 private fun Rswitch(swap :Int) :Int {
     if (swap == 1) return 2
     if (swap == 2) return 3

@@ -7,7 +7,7 @@ import java.util.UUID
 object WatchlistManager {
 
     fun createWatchlist(name: String) : Watchlist{
-    val newList = Watchlist(id = UUID.randomUUID().toString(), name = name)
+        val newList = Watchlist(id = UUID.randomUUID().toString(), name = name)
         watchlists.lists.add(newList)
         return newList
     }

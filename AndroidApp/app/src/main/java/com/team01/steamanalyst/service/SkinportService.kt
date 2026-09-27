@@ -1,6 +1,5 @@
 package com.team01.steamanalyst.service
 
-import android.util.Log
 import com.team01.steamanalyst.data.SkinPortItem
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -20,7 +19,6 @@ class SkinportService {
             .build()
 
         client.newCall(request).execute().use { response ->
-            Log.d("Skinport", "HTTP status: ${response.code}")
 
             if (!response.isSuccessful) {
                 throw Exception("Skinport request failed: HTTP ${response.code}")

@@ -15,8 +15,8 @@ import com.team01.steamanalyst.service.SkinportCatalogCache
 import com.team01.steamanalyst.service.SkinportService
 import com.team01.steamanalyst.valuation.MarketSummaryBuilder
 import com.team01.steamanalyst.valuation.MarketplaceAnalyzer
-import com.team01.steamanalyst.valuation.MarketplaceRankingAnalyzer
 import com.team01.steamanalyst.valuation.WatchlistManager
+import com.team01.steamanalyst.valuation.MarketplaceRankingAnalyzer
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

@@ -7,7 +7,6 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONArray
 import org.json.JSONObject
-import android.util.Log
 
 class CS2CapService {
 
@@ -21,8 +20,6 @@ class CS2CapService {
             .addQueryParameter("market_hash_name", marketHashName)
             .build()
 
-        Log.d("CS2Cap", "Requesting: $url")
-
         val request = Request.Builder()
             .url(url)
             .addHeader(
@@ -33,8 +30,6 @@ class CS2CapService {
 
         client.newCall(request).execute().use { response ->
 
-            Log.d("CS2Cap", "HTTP status: ${response.code}")
-
             if (!response.isSuccessful) {
                 throw IllegalStateException(
                     "CS2Cap request failed with HTTP ${response.code}"
@@ -43,9 +38,7 @@ class CS2CapService {
 
             val body = response.body?.string()
                 ?: throw IllegalStateException("CS2Cap returned an empty response")
-            Log.d("CS2Cap", body)
             return parsePrices(body)
-
         }
     }
 

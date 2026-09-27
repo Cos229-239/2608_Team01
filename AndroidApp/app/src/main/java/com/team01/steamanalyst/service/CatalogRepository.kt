@@ -26,7 +26,7 @@ object CatalogRepository {
 
         val now = System.currentTimeMillis()
         if(!force && currentCatalog.isNotEmpty() && now - lastRefreshedAt < MIN_REFRESH_iNTERVAL_MS){
-           return
+            return
         }
 
         val newCatalog = withContext(Dispatchers.IO) { skinportService.fetchMarketData()}

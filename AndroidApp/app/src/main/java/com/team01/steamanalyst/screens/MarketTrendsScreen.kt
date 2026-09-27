@@ -25,7 +25,6 @@ import com.team01.steamanalyst.data.MarketSummary
 import com.team01.steamanalyst.data.MarketplaceRanking
 import com.team01.steamanalyst.data.SkinPortItem
 import com.team01.steamanalyst.ui.theme.*
-import java.nio.file.WatchEvent
 import kotlin.math.roundToInt
 
 
@@ -64,41 +63,44 @@ var query by remember { mutableStateOf("") }
 
             if(selectedSkin == null){
                 if(query.isBlank()){
-                   item{
-                       Row(
-                           Modifier
-                               .fillMaxWidth(),
-                           horizontalArrangement = Arrangement.SpaceBetween
-                       ) {
-                           Text(
-                               "Random Picks",
-                               style = MaterialTheme.typography.titleSmall,
-                               color = TextPrimary
-                           )
-                           Text(
-                               "Shuffle",
-                               style = MaterialTheme.typography.labelSmall,
-                               color = AccentBlue,
-                               modifier = Modifier.clickable{onShuffle()}
-                           )
-                       }
-                   }
+                    item{
+                        Row(
+                            Modifier
+                                .fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                "Random Picks",
+                                style = MaterialTheme.typography.titleSmall,
+                                color = TextPrimary
+                            )
+                            Text(
+                                "Shuffle",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = AccentBlue,
+                                modifier = Modifier.clickable{onShuffle()}
+                            )
+                        }
+                    }
                     items(randomList, key = {it.marketHashName}) {result ->
                         SkinResultRow(result = result, onClick = {onSkinSelected(result)}, onAddToWatchlist = {onAddToWatchlist(result)})
                     }
-                }else{
-                    items(searchResult, key = {it.marketHashName}) {result->
-                        SkinResultRow(result = result, onClick = { onSkinSelected(result) }, onAddToWatchlist = {onAddToWatchlist(result)})
+                }else {
+                    items(searchResult, key = { it.marketHashName }) { result ->
+                        SkinResultRow(
+                            result = result,
+                            onClick = { onSkinSelected(result) },
+                            onAddToWatchlist = { onAddToWatchlist(result) })
                     }
                 }
                 return@LazyColumn
             }
-            item{
-                SelectedSkinHeader(
-                    skin = selectedSkin,
-                    dealRating = summary?.dealRating,
-                    onBack = onBack
-                )}
+                item{
+                    SelectedSkinHeader(
+                        skin = selectedSkin,
+                        dealRating = summary?.dealRating,
+                        onBack = onBack
+                    )}
 
             when{
                 isLoading -> item{LoadingCard()}
