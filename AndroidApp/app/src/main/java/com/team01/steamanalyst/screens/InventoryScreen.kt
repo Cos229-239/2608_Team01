@@ -15,7 +15,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.team01.steamanalyst.components.*
 import com.team01.steamanalyst.data.SteamInventoryItem
-import com.team01.steamanalyst.ui.theme.*
 import androidx.compose.runtime.remember
 import coil.compose.AsyncImage
 import com.team01.steamanalyst.steamAccount

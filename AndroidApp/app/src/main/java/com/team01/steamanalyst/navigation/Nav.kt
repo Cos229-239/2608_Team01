@@ -1,7 +1,6 @@
 package com.team01.steamanalyst.navigation
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
@@ -17,14 +16,11 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.team01.steamanalyst.components.SideNav
-import com.team01.steamanalyst.components.TopSearchBar
 import com.team01.steamanalyst.screens.HomeScreen
 import com.team01.steamanalyst.screens.InvenScreen
-import com.team01.steamanalyst.screens.MarketTrendsScreen
 import com.team01.steamanalyst.screens.WatchScreen
 import com.team01.steamanalyst.screens.ProfileScreen
 import com.team01.steamanalyst.screens.*
-import com.team01.steamanalyst.navigation.MarketTrendsViewModel
 import com.team01.steamanalyst.ui.theme.BgRoot
 
 @Composable

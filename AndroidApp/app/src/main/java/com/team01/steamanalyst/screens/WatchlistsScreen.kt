@@ -14,7 +14,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.team01.steamanalyst.components.*
 import com.team01.steamanalyst.data.SkinPortItem
@@ -25,17 +24,19 @@ import com.team01.steamanalyst.data.SteamInventoryItem
 import com.team01.steamanalyst.service.CatalogRepository
 import com.team01.steamanalyst.steamAccount
 import com.team01.steamanalyst.settings
-import com.team01.steamanalyst.ui.theme.*
+
 
 
 @Composable
-@Preview
 fun WatchScreen(){
     var query by remember {mutableStateOf("")}
     var refreshTick by remember { mutableIntStateOf(0) }
     var addingList by remember { mutableStateOf(false) }
     var newListName by remember { mutableStateOf("") }
     var addingFromInventory by remember { mutableStateOf(false) }
+    var sortOrder: String by remember {mutableStateOf(settings.SortByWatchlists)}
+    var ascending: Boolean by remember {mutableStateOf(settings.AscendingWatchlists)}
+    val color = settings.colorScheme
 
     val activeList = WatchlistManager.getActiveWatchlist()
 
@@ -62,6 +63,51 @@ fun WatchScreen(){
             )
         }
         Row(
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            Spacer(Modifier.width(3.dp))
+            Box(
+                modifier = Modifier
+                    .width(80.dp)
+                    .height(40.dp)
+                    .padding(vertical = 3.dp)
+                    .background(color.primary)
+                    .padding(vertical = 10.dp, horizontal = 8.dp)
+                    .clickable{
+                        ascending = !ascending
+                        settings.AscendingWatchlists = ascending
+                    }
+            ) {
+                Text(
+                    if(ascending)
+                    "Ascending"
+                    else
+                    "Descending",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = color.onSurface
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .width(160.dp)
+                    .height(40.dp)
+                    .padding(vertical = 3.dp)
+                    .background(color.primary)
+                    .padding(vertical = 10.dp, horizontal = 8.dp)
+                    .clickable{
+                        sortOrder = switchWatchlistSort(sortOrder)
+                        settings.SortByWatchlists = sortOrder
+                    }
+            ) {
+                Text(
+                    "Sort Type: $sortOrder",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = color.onSurface
+                )
+            }
+        }
+        Spacer(Modifier.height(8.dp))
+        Row(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 4.dp),
@@ -70,7 +116,7 @@ fun WatchScreen(){
             Text(
                 text = if(addingFromInventory) "Close" else "Add from Inventory",
                 style = MaterialTheme.typography.labelSmall,
-                color = AccentBlue,
+                color = color.primary,
                 modifier = Modifier.clickable{addingFromInventory = !addingFromInventory}
             )
         }
@@ -94,7 +140,7 @@ fun WatchScreen(){
                         Text(
                             "From your Inventory",
                             style = MaterialTheme.typography.titleSmall,
-                            color = TextPrimary
+                            color = color.onBackground
                         )
                     }
                     if(availableFromInventory.isEmpty()){
@@ -103,7 +149,7 @@ fun WatchScreen(){
                                 if(!steamAccount.loaded)"Log in to see your inventory"
                                 else "All your inventory items are already on this watchlist",
                                 style = MaterialTheme.typography.labelSmall,
-                                color = TextSecondary
+                                color = color.onSurface
                             )
                         }
                     }else{
@@ -146,6 +192,7 @@ private fun WatchlistSelectorRow(
     onAddClick: () -> Unit,
     onDeleteClick: (String) -> Unit
 ){
+    val color = settings.colorScheme
     LazyRow(
         modifier = Modifier
             .fillMaxWidth()
@@ -157,15 +204,15 @@ private fun WatchlistSelectorRow(
             Row(
                 modifier = Modifier
                     .clip(RoundedCornerShape(50))
-                    .background(if(selected) AccentBlue else BgPanel)
+                    .background(if(selected) color.primary else color.onSurface)
                     .clickable{ onSelect(list.id) }
                     .padding(horizontal = 14.dp, vertical = 8.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(6.dp)
             ){
-                Text(list.name, style = MaterialTheme.typography.labelSmall, color = TextPrimary)
+                Text(list.name, style = MaterialTheme.typography.labelSmall, color = color.onSurface)
                 if(selected && lists.size > 1){
-                    Text("x", style = MaterialTheme.typography.labelSmall, color = TextPrimary,
+                    Text("x", style = MaterialTheme.typography.labelSmall, color = color.onSurface,
                         modifier = Modifier.clickable{onDeleteClick(list.id) })
                 }
             }
@@ -174,14 +221,14 @@ private fun WatchlistSelectorRow(
             Box(
                 modifier = Modifier
                     .clip(RoundedCornerShape(50))
-                    .background(BgInput)
+                    .background(color.onSurfaceVariant)
                     .clickable{onAddClick()}
                     .padding(horizontal = 14.dp, vertical = 5.dp)
             ){
                 Text(
                     "+ New",
                     style = MaterialTheme.typography.labelSmall,
-                    color = TextPrimary
+                    color = color.onSurface
                 )
             }
         }
@@ -190,6 +237,7 @@ private fun WatchlistSelectorRow(
 
 @Composable
 private fun NewWatchlistRow(name: String, onNameChange: (String) -> Unit, onConfirm: () -> Unit, onCancel: () -> Unit){
+    val color = settings.colorScheme
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -201,7 +249,7 @@ private fun NewWatchlistRow(name: String, onNameChange: (String) -> Unit, onConf
             modifier = Modifier
                 .weight(1f)
                 .clip(RoundedCornerShape(8.dp))
-                .background(BgInput)
+                .background(color.surfaceVariant)
                 .clickable{onCancel()}
                 .padding(horizontal = 10.dp, vertical = 8.dp)
         ) {
@@ -209,13 +257,13 @@ private fun NewWatchlistRow(name: String, onNameChange: (String) -> Unit, onConf
                 value = name,
                 onValueChange = onNameChange,
                 singleLine = true,
-                textStyle = MaterialTheme.typography.bodyMedium.copy(color = TextPrimary),
+                textStyle = MaterialTheme.typography.bodyMedium.copy(color = color.onSurface),
                 decorationBox = {inner ->
                     if(name.isEmpty())
                         Text(
                             "Watchlist name...",
                             style = MaterialTheme.typography.bodyMedium,
-                            color = TextMuted
+                            color = color.onSurfaceVariant
                         )
                     inner()
                 }
@@ -224,26 +272,26 @@ private fun NewWatchlistRow(name: String, onNameChange: (String) -> Unit, onConf
         Box(
             modifier = Modifier
                 .clip(RoundedCornerShape(8.dp))
-                .background(BgInput)
+                .background(color.primary)
                 .clickable{onConfirm()}
                 .padding(horizontal = 12.dp, vertical = 8.dp)
         ){
             Text(
                 "Add",
                 style = MaterialTheme.typography.labelSmall,
-                color = TextPrimary
+                color = color.onPrimary
             )
         }
         Box(
             modifier = Modifier.clip(RoundedCornerShape(8.dp))
-                .background(BgInput)
+                .background(color.surfaceVariant)
                 .clickable{onCancel()}
                 .padding(horizontal = 12.dp, vertical = 8.dp)
         ) {
             Text(
                 "Cancel",
                 style = MaterialTheme.typography.labelSmall,
-                color = TextPrimary
+                color = color.onSurface
             )
         }
     }
@@ -251,25 +299,26 @@ private fun NewWatchlistRow(name: String, onNameChange: (String) -> Unit, onConf
 
 @Composable
 private fun WatchedItemRow(item: SkinPortItem, onRemove: () -> Unit){
+    val color =settings.colorScheme
     var priceToShow by remember { mutableIntStateOf(settings.priceToShowWatchlists) }
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
-            .background(BgPanel)
+            .background(color.surface)
             .padding(12.dp),
         horizontalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         Text(
             item.marketHashName,
             style = MaterialTheme.typography.bodyMedium,
-            color = TextPrimary,
+            color = color.onSurface,
             modifier = Modifier.weight(1f)
         )
         Box(
             modifier = Modifier
                 .clip(RoundedCornerShape(6.dp))
-                .background(BgInput)
+                .background(color.surfaceVariant)
                 .clickable{priceToShow = Rswitch(priceToShow)}
                 .padding(horizontal = 8.dp, vertical = 6.dp)
         ) {
@@ -278,13 +327,13 @@ private fun WatchedItemRow(item: SkinPortItem, onRemove: () -> Unit){
             Text(
                 "$label: ${formatUsd(price)}",
                 style = MaterialTheme.typography.labelSmall,
-                color = PositiveGreen
+                color = color.tertiary
             )
         }
         Text(
             "Remove",
             style = MaterialTheme.typography.labelSmall,
-            color = NegativeRed,
+            color = color.error,
             modifier = Modifier.clickable{onRemove()}
         )
     }
@@ -292,28 +341,30 @@ private fun WatchedItemRow(item: SkinPortItem, onRemove: () -> Unit){
 
 @Composable
 private fun EmptyWatchlistCard(){
+    val color = settings.colorScheme
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
-            .background(BgPanel)
+            .background(color.surface)
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
             "This watchlist is empty",
-            color = TextSecondary
+            color = color.onSurfaceVariant
         )
     }
 }
 
 @Composable
 private fun InventoryAddRow(item: SteamInventoryItem, onAdd: () -> Unit){
+    val color = settings.colorScheme
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
-            .background(BgPanel)
+            .background(color.surface)
             .padding(12.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(10.dp)
@@ -321,16 +372,30 @@ private fun InventoryAddRow(item: SteamInventoryItem, onAdd: () -> Unit){
         Text(
             item.name,
             style = MaterialTheme.typography.bodyMedium,
-            color = TextPrimary,
+            color = color.onSurface,
             modifier = Modifier.weight(1f)
         )
-        Text(
-            "+ Add to Watchlist",
+        Box(
+            modifier = Modifier
+                .width(90.dp)
+                .height(28.dp)
+                .clip(RoundedCornerShape(6.dp))
+                .background(color.primary)
+                .clickable{onAdd()},
+            contentAlignment = Alignment.Center
+        ) {Text(
+            "Add to Watchlist",
             style = MaterialTheme.typography.labelSmall,
-            color = AccentBlue,
-            modifier = Modifier.clickable{ onAdd() }
-        )
+            color = color.primary
+        ) }
     }
+}
+private fun switchWatchlistSort(sortOrder: String) : String{
+    if(sortOrder == "NoSort") return "Name"
+    if(sortOrder == "Name") return "Price(Sugg)"
+    if(sortOrder == "Price(Sugg)") return "Price(Med)"
+    if(sortOrder == "Price(Med)") return "Price(Min)"
+    return "NoSort"
 }
 
 private fun Rswitch(swap :Int) :Int {

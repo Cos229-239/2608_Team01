@@ -16,7 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.team01.steamanalyst.components.*
 import com.team01.steamanalyst.service.CatalogRepository
-import com.team01.steamanalyst.ui.theme.*
+import com.team01.steamanalyst.settings
 import com.team01.steamanalyst.valuation.WatchlistManager
 import com.team01.steamanalyst.watchlists
 import java.util.Locale
@@ -24,9 +24,11 @@ import java.util.Locale
 @Composable
 fun HomeScreen(){
     var query by remember {mutableStateOf("")}
+    val color = settings.colorScheme
 
     Column(modifier = Modifier
-        .fillMaxSize()){
+        .fillMaxSize()
+        .background(color.background)){
         TopSearchBar(query = query, onQueryChange = {query = it})
 
         LazyColumn(
@@ -54,13 +56,13 @@ fun HomeScreen(){
                 }
             }
             item{
-                Text("Daily Movers", style = MaterialTheme.typography.titleMedium)
+                Text("Daily Movers", style = MaterialTheme.typography.titleMedium, color = color.onBackground)
             }
             item{
                 DailyMoverRow()
             }
             item{
-                Text("Market Trends", style = MaterialTheme.typography.titleMedium)
+                Text("Market Trends", style = MaterialTheme.typography.titleMedium,color = color.onBackground)
                 Spacer(Modifier.height(8.dp))
             }
             item{
@@ -76,22 +78,23 @@ fun HomeScreen(){
 
 @Composable
 private fun PortfolioCard(modifier: Modifier = Modifier) {
+    val color = settings.colorScheme
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(12.dp))
-            .background(BgPanel)
+            .background(color.surface)
             .padding(16.dp)
     ) {
-        Text("Portfolio value", style = MaterialTheme.typography.titleSmall)
-        Text(formatUsd(HomeMockData.portfolioValue), style = MaterialTheme.typography.bodyMedium)
+        Text("Portfolio value", style = MaterialTheme.typography.titleSmall,color = color.onSurface)
+        Text(formatUsd(HomeMockData.portfolioValue), style = MaterialTheme.typography.bodyMedium, color = color.onSurface)
         Text(
             "Today's Change +${String.format(Locale.US, "%.2f", HomeMockData.todaysChangePercent)}%",
             style = MaterialTheme.typography.labelSmall,
-            color = PositiveGreen
+            color = color.tertiary
         )
         Spacer(Modifier.height(8.dp))
-        Text("Cash available", style = MaterialTheme.typography.labelSmall)
-        Text(formatUsd(HomeMockData.cashAvailable), style = MaterialTheme.typography.bodyMedium)
+        Text("Cash available", style = MaterialTheme.typography.labelSmall, color = color.onSurfaceVariant)
+        Text(formatUsd(HomeMockData.cashAvailable), style = MaterialTheme.typography.bodyMedium, color = color.onSurface)
         Spacer(Modifier.height(12.dp))
 
     }
@@ -99,13 +102,14 @@ private fun PortfolioCard(modifier: Modifier = Modifier) {
 
 @Composable
 private fun InventorySummaryCard(modifier: Modifier = Modifier){
+    val color = settings.colorScheme
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(12.dp))
-            .background(BgPanel)
+            .background(color.surface)
             .padding(5.dp)
     ){
-        Text("Inventory Summary", style = MaterialTheme.typography.titleSmall)
+        Text("Inventory Summary", style = MaterialTheme.typography.titleSmall, color = color.onSurface)
         Spacer(Modifier.height(10.dp))
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)){
             StatChip("${HomeMockData.inventoryItemCount}", "Items", Modifier.weight(1f))
@@ -120,43 +124,45 @@ private fun InventorySummaryCard(modifier: Modifier = Modifier){
 
 @Composable
 private fun StatChip(value: String, label: String,modifier: Modifier = Modifier) {
+    val color = settings.colorScheme
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(8.dp))
-            .background(BgCard)
+            .background(color.primaryContainer)
             .padding(vertical = 10.dp, horizontal = 10.dp),
         horizontalAlignment = Alignment.CenterHorizontally
 
     ) {
-        Text(value, style = MaterialTheme.typography.titleSmall, color = TextPrimary)
-        Text(label, style = MaterialTheme.typography.labelSmall)
+        Text(value, style = MaterialTheme.typography.titleSmall, color = color.onSurface)
+        Text(label, style = MaterialTheme.typography.labelSmall, color = color.onSurfaceVariant)
     }
 }
 
 @Composable
 private fun DailyMoverRow(){
+    val color = settings.colorScheme
     val movers = CatalogRepository.topMovers. take(3)
     if(movers.isEmpty()){
-        Text("Not enough data yet to show movers", style = MaterialTheme.typography.labelSmall, color = TextSecondary)
+        Text("Not enough data yet to show movers", style = MaterialTheme.typography.labelSmall, color = color.onSurfaceVariant)
         return
     }
     Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)){
         movers.forEach { mover ->
             val isUp = mover.percentChange >= 0.0
-            val color = if (isUp) PositiveGreen else NegativeRed
+            val changeColor = if (isUp) color.tertiary else color.error
             Column(
                 modifier = Modifier
                     .weight(1f)
                     .clip(RoundedCornerShape(10.dp))
-                    .background(BgPanel)
+                    .background(color.surface)
                     .padding(10.dp)
             ) {
-                Text(mover.marketHashName, style = MaterialTheme.typography.labelSmall, color = TextPrimary, maxLines = 1)
-                Text(formatUsd(mover.currentPrice), style = MaterialTheme.typography.bodyMedium, color = TextPrimary)
+                Text(mover.marketHashName, style = MaterialTheme.typography.labelSmall, color = color.onSurface, maxLines = 1)
+                Text(formatUsd(mover.currentPrice), style = MaterialTheme.typography.bodyMedium, color = color.onSurface)
                 Text(
                     "${if (isUp) "+" else ""}${String.format(Locale.US, "%1f", mover.percentChange)}",
                     style = MaterialTheme.typography.labelSmall,
-                    color = color
+                    color = changeColor
                 )
 
             }
@@ -166,22 +172,23 @@ private fun DailyMoverRow(){
 
 @Composable
 private fun MarketTrendsPreviewCard(){
+    val color = settings.colorScheme
     val preview = remember { CatalogRepository.randomSample(3) }
     Column(
         modifier = Modifier
         .fillMaxWidth()
         .clip(RoundedCornerShape(12.dp))
-        .background(BgPanel)
+        .background(color.surface)
         .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         if(preview.isEmpty()){
-            Text("Loading market data . . .", color = TextSecondary, style = MaterialTheme.typography.labelSmall)
+            Text("Loading market data . . .", color = color.onSurfaceVariant, style = MaterialTheme.typography.labelSmall)
         }else{
             preview.forEach { skin ->
                 Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween){
-                    Text(skin.marketHashName, style = MaterialTheme.typography.labelSmall, color = TextSecondary)
-                    Text(formatUsd(skin.medianPrice), style = MaterialTheme.typography.labelSmall, color = TextSecondary)
+                    Text(skin.marketHashName, style = MaterialTheme.typography.labelSmall, color = color.onSurface)
+                    Text(formatUsd(skin.medianPrice), style = MaterialTheme.typography.labelSmall, color = color.onSurfaceVariant)
                 }
             }
         }
@@ -190,6 +197,7 @@ private fun MarketTrendsPreviewCard(){
 }
 @Composable
 private fun WatchlistPreviewCard(){
+    val color = settings.colorScheme
    var activeId by remember { mutableStateOf(watchlists.activeListId) }
     val activeList = watchlists.lists.find { it.id == activeId } ?: watchlists.lists.first()
     val previewItems = activeList.itemHashNames
@@ -200,7 +208,7 @@ private fun WatchlistPreviewCard(){
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
-            .background(BgPanel)
+            .background(color.surface)
             .padding(16.dp)
     ){
         Row(
@@ -211,7 +219,7 @@ private fun WatchlistPreviewCard(){
                 Text(
                     list.name,
                     style = MaterialTheme.typography.labelSmall,
-                    color = if(selected) AccentBlue else TextSecondary,
+                    color = if(selected) color.primary else color.onSurfaceVariant,
                     modifier = Modifier.clickable{
                         activeId = list.id
                         WatchlistManager.setActiveWatchlist(list.id)
@@ -224,7 +232,7 @@ private fun WatchlistPreviewCard(){
             Text(
                 "No items in this watchlist yet"
                 , style = MaterialTheme.typography.labelSmall,
-                color = TextSecondary
+                color = color.onSurfaceVariant
             )
         }else{
             previewItems.forEach { skin ->
@@ -237,12 +245,12 @@ private fun WatchlistPreviewCard(){
                     Text(
                         skin.marketHashName,
                         style = MaterialTheme.typography.labelSmall,
-                        color = TextPrimary
+                        color = color.onSurface
                     )
                     Text(
                         formatUsd(skin.medianPrice),
                         style = MaterialTheme.typography.labelSmall,
-                        color = TextSecondary
+                        color = color.onSurfaceVariant
                     )
                 }
             }

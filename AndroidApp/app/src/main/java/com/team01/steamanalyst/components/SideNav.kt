@@ -15,7 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.team01.steamanalyst.R
 import com.team01.steamanalyst.navigation.Screen
-import com.team01.steamanalyst.ui.theme.*
+import com.team01.steamanalyst.settings
 
 
 @Composable
@@ -24,6 +24,7 @@ fun SideNav(
     onNavigate: (Screen) -> Unit,
     modifier: Modifier = Modifier
 ){
+    val color = settings.colorScheme
     // Defines the nav items as (destination, label) pairs
     val items = listOf(
         Screen.Home to "Home",
@@ -41,7 +42,7 @@ fun SideNav(
             .fillMaxHeight()
             .statusBarsPadding()
             .width(85.dp)
-            .background(BgPanel)
+            .background(color.surface)
             .padding(vertical = 10.dp, horizontal = 10.dp)
 
     ){
@@ -61,7 +62,7 @@ fun SideNav(
                     .fillMaxWidth()
                     .padding(vertical = 20.dp)
                     .clip(RoundedCornerShape(6.dp))
-                    .background(if (selected) NavSelectedBg else BgPanel)
+                    .background(if (selected) color.primaryContainer else color.surface)
                     .clickable {onNavigate(screen)}
                     .padding(vertical = 10.dp, horizontal = 4.dp)
 
@@ -70,7 +71,7 @@ fun SideNav(
                 Text(
                     text = label,
                     style = MaterialTheme.typography.bodySmall,
-                    color = if (selected) AccentBlue else TextSecondary
+                    color = if (selected) color.primary else color.onSurfaceVariant
                 )
             }
         }
